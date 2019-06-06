@@ -231,7 +231,7 @@ for s in $bbduklist
     in2=${s%1*}2.trimmoclean.sickleclean.bbdukclean.fq,NULL \
     outu1=${s%1*}1.final.clean.fq \
     outu2=${s%1*}2.final.clean.fq \
-    outu=${s%1*}u.final.clean.fq \
+    outu=${s%1*}u.clean.fq \
     path=${REFERENCE_FOLDER}/mouse/ 2>&1 >/dev/null | awk '{print "HOST CONTAMINATION SEQUENCES "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/stats.txt
   done
 #DONE
@@ -244,8 +244,8 @@ for s in $finallist
     in1=${s} \
     in2=${s%1*}2.final.clean.fq \
     out=${s%1*}merged.final.clean.fq \
-    outu1=${s%1*}1.nocont.final.clean.fq \
-    outu2=${s%1*}2.nocont.final.clean.fq \
+    outu1=${s%1*}1.merged.final.clean.fq \
+    outu2=${s%1*}2.merged.final.clean.fq \
     mininsert=60 \
     2>&1 >/dev/null | awk '{print "MERGED "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/stats.txt
   done
@@ -253,7 +253,7 @@ for s in $finallist
 
 for s in $finallist
   do
-    cat ${s%1*}merged.final.clean.fq  ${s%1*}u.final.clean.fq  | gzip -c > ${s%1*}u.nocont.final.clean.fq
+    cat ${s%1*}merged.final.clean.fq  ${s%1*}u.clean.fq  | gzip -c > ${s%1*}u.final.clean.fq
   done
   #DONE
 

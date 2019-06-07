@@ -1,7 +1,23 @@
 ### Workflow for whole genome shotgun metagenomics analysis
 
+#!/usr/bin/env bash
+
+main(){
+    create_folders
+    set_variables
+    #fastqc_stats
+    #trimmomatic_sickle_QC
+    #bbmap_QC1
+    #downloads_indexing
+    #bbmap_QC2
+    creating_stats
+}
+
+
 ### Prerequisite
 ```bash
+create_folders(){
+# Creating folder structure
 NAME=Metagenomic_QC
 #DATE=$(date +%Y-%m-%d)
 #ROOT_FOLDER_NAME=$DATE-$NAME
@@ -10,16 +26,22 @@ for FOLDER in analysis tools rawdata reference
 do
     mkdir -p $ROOT_FOLDER_NAME/$FOLDER
 done
-
+}
+```
+```bash
+# setting variable path
+set_variables(){
 TOOLS_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/tools
 RAWDATA_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/rawdata
 ANALYSIS_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/analysis
 REFERENCE_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/reference
 #DONE
-```
+}
 
+```
 #### 1. Generating comprehensive report and stats of data quality using fastqc and BBMAP
 ```bash
+fastqc_stats(){
 #### Run fastqc on our data (non interactively)
 cd $ANALYSIS_FOLDER
 mkdir -p $ANALYSIS_FOLDER/QC/fastqc
@@ -37,13 +59,12 @@ for s in $rawdatalist
     in2=${s%R1*}R2_2.fastq.gz \
     2>&1 >/dev/null | awk '{print "RAWREADS "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/${s%R1*}stats.txt
   done
-
+}
 ```
-
-
 
 #### 2. Quality Control Trimming using trimmomatic and Sickle
 ```bash
+trimmomatic_sickle_QC(){
 #Trimming low quality, short length reads, adapters
 mkdir -p $ANALYSIS_FOLDER/QC/trimmomatic
 mkdir -p $ANALYSIS_FOLDER/QC/sickle
@@ -103,10 +124,12 @@ for s in $rawdatalist
   rm ${ANALYSIS_FOLDER}/QC/sickle/${fname}.1.u.trimmoclean.sickleclean.fq ${ANALYSIS_FOLDER}/QC/sickle/${fname}.2.u.trimmoclean.sickleclean.fq ${ANALYSIS_FOLDER}/QC/sickle/${fname}.u.trimmoclean.sickleclean.fq
 done
 #DONE
+}
 ```
 
 #### 3. Quality control removing phix adapters and sequencing artifacts using BBMAP
 ```bash
+bbmap_QC1(){(){
 # paired data
 sicklelist=$(ll -d ${ANALYSIS_FOLDER}/QC/sickle/*1.trimmoclean.sickleclean.fq | awk '{print $NF}')
   for s in $sicklelist
@@ -137,11 +160,13 @@ sickleunplist=$(ll -d ${ANALYSIS_FOLDER}/QC/sickle/*unpaired.trimmoclean.sicklec
         minlength=60
       done
       #DONE
+    }
 ```
 #### 3. Downloading and indexing the Host genome (human and mouse) using prinseq for cleaning and BBMAP for indexing the genome
 
 ```bash
 #Creating human reference database
+downloads_indexing(){
 mkdir -p $REFERENCE_FOLDER/human
 cd $REFERENCE_FOLDER/human
 for i in {1..22} X Y MT
@@ -207,10 +232,12 @@ path=${REFERENCE_FOLDER}/human
 $TOOLS_FOLDER/bbmap/bbmap.sh \
 ref=${REFERENCE_FOLDER}/mouse/mmref_GRCm38_p4_clean.fasta \
 path=${REFERENCE_FOLDER}/mouse
+}
 ```
 
 #### 4. Removing the host contamination and generating the stats of the data using BBMAP
 ```bash
+bbmap_QC2(){
 bbduklist=$(ll -d ${ANALYSIS_FOLDER}/QC/bbmap/*.1.trimmoclean.sickleclean.bbdukclean.fq | awk '{print $NF}')
 
 for s in $bbduklist
@@ -274,7 +301,11 @@ for s in $finallist
     in2=${s%1*}2.merged.final.clean.fq  2>&1 >/dev/null | awk '{print "PAIRED "$0}' | tee -a ${s%1*}stats.txt
   done
   #DONE
+}
+```
 
+```bash
+creating_stats(){
   for s in $finallist
     do
       grep 'RAWREADS' ${s%1*}stats.txt  | grep 'Input:' | awk '{print "RAWREADS COUNT""\t"$3/2}' | tee ${s%1*}finalstats.txt
@@ -285,4 +316,6 @@ for s in $finallist
       egrep ^PAIRED ${s%1*}stats.txt  | grep 'Input:' | awk '{print $3}' | awk '{print "READS CLEAN_PAIRED "$1}' | tee -a ${s%1*}finalstats.txt
       egrep ^PAIRED ${s%1*}stats.txt  | grep 'Input:' | awk '{print "BASES CLEAN_PAIRED "$5}' | tee -a ${s%1*}finalstats.txt
     done  
+}
 ```
+main

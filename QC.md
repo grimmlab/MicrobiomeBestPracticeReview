@@ -23,7 +23,7 @@ REFERENCE_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/reference
 #### Run fastqc on our data (non interactively)
 cd $ANALYSIS_FOLDER
 mkdir -p $ANALYSIS_FOLDER/QC/fastqc
-find $RAWDATA_FOLDER -name "*.fastq.gz" | xargs -n 1 fastqc -o $ANALYSIS_FOLDER/QC/fastqc
+find $RAWDATA_FOLDER -name "*.fastq.gz" | xargs -n 1 $TOOLS_FOLDER/FastQC/fastqc -o $ANALYSIS_FOLDER/QC/fastqc
 #DONE
 
 #for rawdata
@@ -35,7 +35,7 @@ for s in $rawdatalist
     threads=16 \
     in=${s} \
     in2=${s%R1*}R2_2.fastq.gz \
-    2>&1 >/dev/null | awk '{print "RAWREADS "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/stats.txt
+    2>&1 >/dev/null | awk '{print "RAWREADS "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/${s%R1*}stats.txt
   done
 
 ```
@@ -97,7 +97,7 @@ for s in $rawdatalist
   #Combining all unpaired files
   cat ${ANALYSIS_FOLDER}/QC/sickle/${fname}.1.u.trimmoclean.sickleclean.fq \
   ${ANALYSIS_FOLDER}/QC/sickle/${fname}.2.u.trimmoclean.sickleclean.fq \
-  ${ANALYSIS_FOLDER}/QC/sickle/${fname}.u.trimmoclean.sickleclean.fq \
+  ${ANALYSIS_FOLD$TOOLS_FOLDER/FastQC/fastqcER}/QC/sickle/${fname}.u.trimmoclean.sickleclean.fq \
    > ${ANALYSIS_FOLDER}/QC/sickle/${fname}.unpaired.trimmoclean.sickleclean.fq
 
   rm ${ANALYSIS_FOLDER}/QC/sickle/${fname}.1.u.trimmoclean.sickleclean.fq ${ANALYSIS_FOLDER}/QC/sickle/${fname}.2.u.trimmoclean.sickleclean.fq ${ANALYSIS_FOLDER}/QC/sickle/${fname}.u.trimmoclean.sickleclean.fq
@@ -232,7 +232,7 @@ for s in $bbduklist
     outu1=${s%1*}1.final.clean.fq \
     outu2=${s%1*}2.final.clean.fq \
     outu=${s%1*}u.clean.fq \
-    path=${REFERENCE_FOLDER}/mouse/ 2>&1 >/dev/null | awk '{print "HOST CONTAMINATION SEQUENCES "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/stats.txt
+    path=${REFERENCE_FOLDER}/mouse/ 2>&1 >/dev/null | awk '{print "HOST CONTAMINATION SEQUENCES "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/${s%1*}stats.txt
   done
 #DONE
 
@@ -247,13 +247,13 @@ for s in $finallist
     outu1=${s%1*}1.merged.final.clean.fq \
     outu2=${s%1*}2.merged.final.clean.fq \
     mininsert=60 \
-    2>&1 >/dev/null | awk '{print "MERGED "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/stats.txt
+    2>&1 >/dev/null | awk '{print "MERGED "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/${s%1*}stats.txt
   done
   #DONE
 
 for s in $finallist
   do
-    cat ${s%1*}merged.final.clean.fq  ${s%1*}u.clean.fq  | gzip -c > ${s%1*}u.final.clean.fq
+    cat ${s%1*}merged.final.clean.fq  ${s%1*}u.clean.fq  > ${s%1*}u.final.clean.fq
   done
   #DONE
 
@@ -261,7 +261,28 @@ for s in $finallist
   do
     $TOOLS_FOLDER/bbmap/reformat.sh \
     threads=16 \
-    in=${s%1*}u.nocont.final.clean.fq \
-    2>&1 >/dev/null | awk '{print "UNPAIRED "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/stats.txt
+    in=${s%1*}u.final.clean.fq \
+    2>&1 >/dev/null | awk '{print "UNPAIRED "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/${s%1*}stats.txt
   done
+
+
+for s in $finallist
+  do
+    $TOOLS_FOLDER/bbmap/reformat.sh \
+    threads=16 \
+    in1=${s%1*}1.merged.final.clean.fq \
+    in2=${s%1*}2.merged.final.clean.fq  2>&1 >/dev/null | awk '{print "PAIRED "$0}' | tee -a ${s%1*}stats.txt
+  done
+  #DONE
+
+  for s in $finallist
+    do
+      grep 'RAWREADS' ${s%1*}stats.txt  | grep 'Input:' | awk '{print "RAWREADS COUNT""\t"$3/2}' | tee ${s%1*}finalstats.txt
+      grep 'RAWREADS' ${s%1*}stats.txt  | grep 'Input:' | awk '{print "BASES RAWREADS "$5}' | tee -a ${s%1*}finalstats.txt
+      grep 'HOST CONTAMINATION SEQUENCES' ${s%1*}stats.txt | grep "Reads Used:"  | awk '{printf $4" "}' | awk '{print "READS BIO "$1/2 + $2}' | tee -a ${s%1*}finalstats.txt
+      egrep ^UNPAIRED ${s%1*}stats.txt  | grep 'Input:' | awk '{print $3}' | awk '{print "READS CLEAN_UNPAIRED "$1}' | tee -a ${s%1*}finalstats.txt
+      egrep ^UNPAIRED ${s%1*}stats.txt  | grep 'Input:' | awk '{print "BASES CLEAN_UNPAIRED "$5}' | tee -a ${s%1*}finalstats.txt
+      egrep ^PAIRED ${s%1*}stats.txt  | grep 'Input:' | awk '{print $3}' | awk '{print "READS CLEAN_PAIRED "$1}' | tee -a ${s%1*}finalstats.txt
+      egrep ^PAIRED ${s%1*}stats.txt  | grep 'Input:' | awk '{print "BASES CLEAN_PAIRED "$5}' | tee -a ${s%1*}finalstats.txt
+    done  
 ```

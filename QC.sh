@@ -3,16 +3,16 @@
 #!/usr/bin/env bash
 
 main(){
-    create_folders
-    set_variables
-    fastqc_stats
-    trimmomatic_sickle_QC
-    bbmap_QC1
-    downloads_indexing
-    bbmap_QC2
-    creating_stats
+  create_folders
+  set_variables
+  fastqc_stats
+  trimmomatic_sickle_QC
+  bbmap_QC1
+  downloads_indexing
+  bbmap_QC2
+  creating_stats
+  unwritable_finalQC
 }
-
 
 ### Prerequisite
 create_folders(){
@@ -282,7 +282,7 @@ for s in $finallist
     $TOOLS_FOLDER/bbmap/reformat.sh \
     threads=16 \
     in=${s%1*}u.final.clean.fq \
-    2>&1 >/dev/null | awk '{print "UNPAIRED "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/${s%1*}stats.txt
+    2>&1 >/dev/null | awk '{print "UNPAIRED "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbm```ap/${s%1*}stats.txt
   done
 
 
@@ -310,5 +310,18 @@ creating_stats(){
       egrep ^PAIRED ${s%1*}stats.txt  | grep 'Input:' | awk '{print "BASES CLEAN_PAIRED "$5}' | tee -a ${s%1*}finalstats.txt
     done
 }
+
+unwritable_finalQC(){
+  mkdir -p $ANALYSIS_FOLDER/QC/final_QC_output
+  finallist=$(ll -d ${ANALYSIS_FOLDER}/QC/bbmap/*.1.final.clean.fq | awk '{print $NF}')
+  for s in $finallist
+    do
+      cp ${s%1*}u.final.clean.fq $ANALYSIS_FOLDER/QC/final_QC_output/$(basename ${s%1*}u.final.clean.fq)
+      cp ${s%1*}1.merged.final.clean.fq $ANALYSIS_FOLDER/QC/final_QC_output/$(basename ${s%1*}1.merged.final.clean.fq
+      cp ${s%1*}2.merged.final.clean.fq $ANALYSIS_FOLDER/QC/final_QC_output/$(basename ${s%1*}1.merged.final.clean.fq
+    done
+chmod -R a-w $INPUT_FOLDER/QC/Final_QC_output
+}
+
 
 main

@@ -62,7 +62,7 @@ contigs_classification_with_diamond_megan(){
       --threads 24 \
       --query ${ANALYSIS_FOLDER}/assembly/spades/$(basename ${i%.1*})/contigs_1000_filtered.fasta \
       --db ${REFERENCE_FOLDER}/reference_database/nr \
-      --daa ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output/$(basename ${i%.1*})
+      --daa ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output/$(basename ${i%.1*}.daa)
 
       $HOME/megan/tools/daa-meganizer \
       --in ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output/$(basename ${i%.1*}.daa) \

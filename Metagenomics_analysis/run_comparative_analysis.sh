@@ -6,9 +6,8 @@
 comparative_analysis_main(){
    check_and_install
    contigs_classification_with_kraken
-   contigs_classification_with_diamond_megan
-   #gene_based_classification -> EXPERIMENT! UNCOMMENT AT YOUR OWN RISK
    comparative_functional_annotation_prokka
+   gene_classification_with_diamond_megan
    predict_metabolic_pathway_minpath
 }
 
@@ -19,14 +18,13 @@ check_and_install(){
    download_nrdb
    install_kraken
    download_krakendb
-   install_prodigal
    install_prokka
    install_megan
    download_megandb
    install_minpath
-   install_support_scripts
    echo "DONE checking and installing packages for Comparative Analysis!"
 }
+
 
 contigs_classification_with_kraken(){
 
@@ -50,112 +48,31 @@ contigs_classification_with_kraken(){
    echo "DONE running contigs classification with kraken!"
 }
 
-#contigs classification and to visualize it in megan
-contigs_classification_with_diamond_megan(){
+gene_classification_with_diamond_megan(){
    echo "Running contigs classification with diamond"
 
    mkdir -p ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output
    finallist=$(ls -d ${ANALYSIS_FOLDER}/QC/final_QC_output/*.1.unmerged.final.clean.fq | awk '{print $NF}')
    for i in ${finallist}
    do
-      ${TOOLS_FOLDER}/diamond/diamond blastx \
+      ${TOOLS_FOLDER}/diamond/diamond blastp \
       --threads 24 \
-      --query ${ANALYSIS_FOLDER}/assembly/spades/$(basename ${i%.1*})/contigs_1000_filtered.fasta \
+      --query ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/functional_classification/prokka_output/$(basename ${i%.1*}).faa \
       --db ${REFERENCE_FOLDER}/reference_database/nr \
       --daa ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output/$(basename ${i%.1*}.daa)
 
-      $HOME/megan/tools/daa-meganizer \
+
+      $HOME/megan/tools/daa2rma \
       --in ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output/$(basename ${i%.1*}.daa) \
       --acc2taxa ${REFERENCE_FOLDER}/reference_database/megan_ref/prot_acc2tax-Nov2018X1.abin \
-      --acc2kegg ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2kegg-Dec2017X1-ue.abin \
       --acc2interpro2go ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2interpro-June2018X.abin \
+      --acc2seed  ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2seed-May2015XX.abin \
       --acc2eggnog ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2eggnog-Oct2016X.abin \
-      -lg \
-      -fwa true
+      -fwa true \
+      --out ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output/$(basename ${i%.1*}.rma)
    done
    
    echo "DONE running contigs classification with diamond!"
-}
-
-#run_diamond
-#https://github.com/rprops/MetaG_analysis_workflow/wiki/11.-Genome-annotation
-gene_based_classification(){
-
-   echo "Running gene based taxonomic classification"
-
-   #filterout shortreads
-   # Search for genes on contigs
-   mkdir -p ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/gene_prediction
-   mkdir -p ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa
-   finallist=$(ls -d ${ANALYSIS_FOLDER}/QC/final_QC_output/*.1.unmerged.final.clean.fq | awk '{print $NF}')
-   for i in ${finallist}
-   do
-      #echo "Running prodigal"
-      #${TOOLS_FOLDER}/Prodigal-2.6.1/prodigal \
-      #-p meta \
-      #-a ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/gene_prediction/$(basename ${i%.1*}.genes.faa) \
-      #-d ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/gene_prediction/$(basename ${bin%.1*}.genes.fna) \
-      #-f gff \
-      #-o ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/gene_prediction/$(basename ${i%.1*}.genes.gff) \
-      #-i ${ANALYSIS_FOLDER}/assembly/spades/$(basename ${i%.1*})/contigs_1000_filtered.fasta
-
-
-      #echo "Running diamond blastp"
-      # Blastp to NR database
-      #${TOOLS_FOLDER}/diamond/diamond blastp \
-      #-p 24 \
-      #-d ${REFERENCE_FOLDER}/reference_database/nr \
-      #-q ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/gene_prediction/$(basename ${i%.1*}.genes.faa) \
-      #-a ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}.daa) > \
-      #${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/d.out
-
-      #echo "Running diamond view"
-      #${TOOLS_FOLDER}/diamond/diamond view \
-      #-a ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}.daa) \
-      #-o ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*})_nr.m8
-
-
-      # Start classification
-      #echo "Running Lengths"
-      #python ${BIN_FOLDER}/Lengths.py \
-      #-i ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/gene_prediction/$(basename ${i%.1*}.genes.faa) \
-      #> ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}.length)
-
-      #echo "Modifying m8 file for compatibility"
-      #Rscript ${BIN_FOLDER}/modify_m8.R \
-      #   -i ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_nr.m8) \
-      #   -o ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_mod_nr.m8)
-
-      #echo "Running ClassifyContigNR"
-      #python ${BIN_FOLDER}/ClassifyContigNR.py \
-      #${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_mod_nr.m8) \
-      #${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}.length) \
-      #-o ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_nr) \
-      #-l ${REFERENCE_FOLDER}/all_taxa_lineage_notnone.tsv \
-      #-g ${REFERENCE_FOLDER}/gi_taxid_prot.dmp
-      
-
-      # Extracting specific classification level
-      echo "Running Filter"
-      perl ${BIN_FOLDER}/Filter.pl \
-      4 < \
-      ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_nr_contigs.csv) > \
-      ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_classification_contigs_4.csv)
-
-      # Make tsv
-      cat ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_classification_contigs_4.csv) | sed 's/,/\t/g' >   ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_classification_contigs_4.tsv)
-
-      # Get contig list
-      grep ">" ${ANALYSIS_FOLDER}/assembly/spades/$(basename ${i%.1*})/contigs_1000_filtered.fasta | sed "s/>//g" > ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}.txt)
-
-      # Format to annotation file for vizbin
-      echo "Running diamond2vizbin"
-      #Rscript ${BIN_FOLDER}/diamond2vizbin.R \
-      #   ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}_classification_contigs_4.tsv) \
-      #   ${ANALYSIS_FOLDER}/Gene_based_analysis_onContigs/taxonomic_classification/assignTaxa/$(basename ${i%.1*}.txt)
-   done
-
-   echo "DONE running gene based taxonomic classification!"
 }
 
 comparative_functional_annotation_prokka(){
@@ -243,58 +160,6 @@ download_krakendb(){
       ln -s ${LINKPATH_DB}/reference_database/kraken2DB ${REFERENCE_FOLDER}/reference_database/kraken2DB
    fi
    echo "DONE checking and downloading kraken database!"
-}
-
-#install krken2 and kraken2 database
-install_prodigal(){
-   echo "Checking and installing prodigal"
-   if [ -d "${TOOLS_FOLDER}/Prodigal-2.6.1" ]; then
-      echo "prodigal already installed"
-   else
-      #Installing prodigal 
-      echo "Installing prodigal"
-      cd ${TOOLS_FOLDER}
-      wget https://github.com/hyattpd/Prodigal/archive/v2.6.1.tar.gz -O prodigal.tar.gz
-      tar xzf prodigal.tar.gz
-      cd Prodigal-2.6.1 
-      make
-      cd ..
-      rm Prodigal.tar.gz
-   fi
-   export PATH=${TOOLS_FOLDER}/Prodigal-2.6.1/:$PATH
-   echo "DONE checking and installing prodigal!"
-}
-
-install_support_scripts(){
-
-   echo "Checking and installing support scripts"
-   if [ -d "${BIN_FOLDER}/DESMAN-master"  -a -d "${BIN_FOLDER}/MetaG_analysis_workflow-master" ]; then
-      echo "support scripts already installed"
-   else
-      #Installing support scripts 
-      cd ${BIN_FOLDER}
-      echo "Installing support scripts"
-      wget https://github.com/rprops/DESMAN/archive/master.zip -O DESMAN.zip
-      unzip DESMAN.zip
-      cp DESMAN-master/scripts/Lengths.py .
-      cp DESMAN-master/scripts/ClassifyContigNR.py .
-      cp DESMAN-master/scripts/Filter.pl .
-      rm DESMAN.zip
-
-      wget https://github.com/rprops/MetaG_analysis_workflow/archive/master.zip -O Metagenomics_WorkFlow.zip 
-      unzip Metagenomics_WorkFlow.zip
-      cp MetaG_analysis_workflow-master/diamond2vizbin.R .
-      rm Metagenomics_WorkFlow.zip
-
-      cd ${REFERENCE_FOLDER}
-      wget https://desmandatabases.s3.climb.ac.uk/all_taxa_lineage_notnone.tsv
-      wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz
-      wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/gi_taxid_prot.dmp.gz
-      gunzip prot.accession2taxid.gz
-      gunzip gi_taxid_prot.dmp.gz
-   fi
-
-   echo "DONE checking and installing support scripts!"
 }
 
 download_megandb(){
@@ -387,5 +252,32 @@ install_minpath(){
    export MinPath=${TOOLS_FOLDER}/MinPath
    echo "DONE checking and installing minpath!"
 }
+
+install_samtools(){
+   echo "Checking and installing samtools"
+
+   if [ -d "${TOOLS_FOLDER}/samtools-1.9" ]; then
+      echo "samtools already installed"
+   else
+      echo "Installing samtools"
+      cd $TOOLS_FOLDER
+      #install samtools  and dependencies
+      git clone git://github.com/samtools/htslib.git
+      cd htslib
+      make
+      #git clone git://github.com/samtools/bcftools.git
+      cd ..
+      wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+      tar -xvvf samtools-1.9.tar.bz2
+      cd samtools-1.9   # and similarly for bcftools and htslib
+      make
+      export PATH=${TOOLS_FOLDER}/samtools-1.9:$PATH
+      cd ..
+      rm samtools-1.9.tar.bz2
+   fi
+
+   echo "DONE checking and installing samtools!"
+}
+
 
 comparative_analysis_main

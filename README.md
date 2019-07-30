@@ -84,6 +84,8 @@ In the 'metagenomics_analysis.sh' add the path for the raw-data. Please note tha
 ```bash
 SRC_RAWDATA=/path_to_my_rawdata_samples/.../.../
 ```
+**NOTE**: The sample data must always be paired end and compressed in the\*.fastq.gz format. Also the names of the pair must end with \*\_1.fastq.gz and \*\_2.fastq.gz. Example: Sample\_1.fastq.gz and Sample\_2.fastq.gz.
+
 
 3. Set name of workflow
 
@@ -125,7 +127,7 @@ If the appropriate steps have already been run, then these can be commented and 
 8. run_bin_taxonomic_classification.sh
 9. run_bin_functional_classification.sh
 
-![Workflow](/data1/Active_Projects/paper_scripts/MicroReviewPaper/Figure4_for_README.tif)
+![Workflow](https://octodex.github.com/images/yaktocat.png)
 
 
 1. Quality control `(run_qc.sh)`: This scripts is running series of steps with different tools to perform quality control. [FastQC](https://github.com/s-andrews/FastQC/) is used to generate comprehensive report of data quality on raw data. Followed by this is a series of steps including removal of adapters, low quality reads, sequencing artifacts, phix adapters and host contamination is performed using trimmomatic, sickle and bbmap.  

@@ -3,7 +3,7 @@
 ### Workflow for whole genome shotgun metagenomics analysis
 
 # Root folder name"
-NAME=Test_Metagenomic
+NAME=Test_Metagenomic_1
 
 # Raw data folder path
 SRC_RAWDATA='/data1/Active_Projects/Metagenomic_QC/rawdata/'
@@ -14,8 +14,8 @@ LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
 metagenomics_analysis_main(){
    create_folders
    set_variables # -> Never comment this function 
+   #fetch_example_data # -> Uncomment this function if you want to run it on an example data 
    copy_rawdata
-   #fetch_example_data
    run_qc
    run_assembly
    run_coassembly
@@ -69,13 +69,15 @@ copy_rawdata(){
 
 # fetch raw data from web to the analysis folder structure 
 fetch_example_data(){
-   lst=$(ls -d $SRC_RAWDATA/*.fastq.gz)
 
-   cd ${RAWDATA_FOLDER}
+   mkdir -p $NAME/example_data
 
-   wget ftp://public-ftp.hmpdacc.org/Illumina/HMDEMO/SRP002430/plasma/affected/SRS072364.tar.bz2
-   wget ftp://public-ftp.hmpdacc.org/Illumina/HMDEMO/SRP002430/plasma/affected/SRS072331.tar.bz2
+   cd $NAME/example_data
 
+   wget ftp.sra.ebi.ac.uk/vol1/fastq/ERR011/ERR011347/ERR011347_1.fastq.gz
+   wget ftp.sra.ebi.ac.uk/vol1/fastq/ERR011/ERR011347/ERR011347_2.fastq.gz
+
+   SRC_RAWDATA=$NAME/example_data
    cd -
 }
 

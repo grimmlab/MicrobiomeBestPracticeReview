@@ -154,13 +154,15 @@ run_diamond(){
       --db ${REFERENCE_FOLDER}/reference_database/nr \
       --daa ${ANALYSIS_FOLDER}/reference_classification/diamond_output/$(basename ${i%12*})
 
-      $HOME/megan/tools/daa-meganizer \
+ 
+      $HOME/megan/tools/daa2rma \
       --in ${ANALYSIS_FOLDER}/reference_classification/diamond_output/$(basename ${i%12*}.daa) \
-      --acc2taxa ${REFERENCE_FOLDER}/reference_database/megan_ref/prot_acc2tax-Nov2018X1.abin \
-      --acc2kegg ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2kegg-Dec2017X1-ue.abin \
+      --acc2taxa ${REFERENCE_FOLDER}/reference_database/megan_ref/nucl_acc2tax-Nov2018.abin \
       --acc2interpro2go ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2interpro-June2018X.abin \
+      --acc2seed  ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2seed-May2015XX.abin \
       --acc2eggnog ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2eggnog-Oct2016X.abin \
-      -fwa true
+      -fwa true \
+      --out ${ANALYSIS_FOLDER}/reference_classification/diamond_output/$(basename ${i%.12*}.rma)
    done
 
    echo "DONE running diamond!"

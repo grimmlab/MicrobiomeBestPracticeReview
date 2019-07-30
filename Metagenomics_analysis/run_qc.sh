@@ -45,14 +45,14 @@ fastqc_stats(){
 
    echo "Creating rawdata stats"
    mkdir -p ${ANALYSIS_FOLDER}/QC/bbmap
-   rawdatalist=$(ls -d $RAWDATA_FOLDER/*R1* | awk '{print $NF}')
+   rawdatalist=$(ls -d $RAWDATA_FOLDER/*_1.fastq.gz | awk '{print $NF}')
    for s in $rawdatalist
    do
       $TOOLS_FOLDER/bbmap/reformat.sh \
       threads=16 \
       in=${s} \
-      in2=${s%R1*}R2.fastq.gz \
-      2>&1 >/dev/null | awk '{print "RAWREADS "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/$(basename ${s%R1*}stats.txt)
+      in2=${s%_1*}_2.fastq.gz \
+      2>&1 >/dev/null | awk '{print "RAWREADS "$0}' | tee -a $ANALYSIS_FOLDER/QC/bbmap/$(basename ${s%_1*}stats.txt)
    done
 
    echo "DONE Running fastqc stats!"
@@ -65,15 +65,15 @@ trimmomatic_sickle_QC(){
    #Trimming low quality, short length reads, adapters
    mkdir -p $ANALYSIS_FOLDER/QC/trimmomatic
    mkdir -p $ANALYSIS_FOLDER/QC/sickle
-   rawdatalist=$(ls -d $RAWDATA_FOLDER/*R1* | awk '{print $NF}')
+   rawdatalist=$(ls -d $RAWDATA_FOLDER/*_1.fastq.gz | awk '{print $NF}')
 
    for s in $rawdatalist
    do
-      fname=$(basename $s | sed -e "s/_R1.fastq.gz//")
+      fname=$(basename $s | sed -e "s/_1.fastq.gz//")
       #Running trimmomatic
       echo "Running trimmomatic"
       java -jar $TOOLS_FOLDER/Trimmomatic-0.39/trimmomatic-0.39.jar PE \
-      ${s%_R*}_R1.fastq.gz ${s%_R*}_R2.fastq.gz \
+      ${s%_1*}_1.fastq.gz ${s%_1*}_2.fastq.gz \
       -threads 16 \
       -trimlog ${ANALYSIS_FOLDER}/QC/trimmomatic/${fname}.trimlog.txt \
       -phred33 \

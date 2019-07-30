@@ -147,6 +147,10 @@ prepare_megandb(){
       unzip acc2interpro-June2018X.abin.zip
       wget http://ab.inf.uni-tuebingen.de/data/software/megan6/download/acc2eggnog-Oct2016X.abin.zip
       unzip acc2eggnog-Oct2016X.abin.zip
+      wget http://ab.inf.uni-tuebingen.de/data/software/megan6/download/nucl_acc2tax-Nov2018.abin.zip
+      unzip nucl_acc2tax-Nov2018.abin.zip
+      wget http://ab.inf.uni-tuebingen.de/data/software/megan6/download/acc2seed-May2015XX.abin.zip
+      unzip acc2seed-May2015XX.abin.zip
    fi
    echo "DONE checking and downloading megan database!"
 }
@@ -245,6 +249,5 @@ cleanup_tmp(){
    fi
 
 }
-
 
 prepare_databases_main

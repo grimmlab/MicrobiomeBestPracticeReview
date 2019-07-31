@@ -126,7 +126,7 @@ If the appropriate steps have already been run, then these can be commented and 
   **8. run_bin_taxonomic_classification.sh**</br>
   **9. run_bin_functional_classification.sh**</br>
 
-![Workflow](https://github.com/dominikgrimm/MicroReviewPaper/Figure4_README.png)
+![Workflow](https://github.com/dominikgrimm/MicroReviewPaper/blob/master/Figure4_README.png)
 
 
 **1. Quality control `(run_qc.sh)`**: <p style='text-align: justify;'> This scripts is running series of steps with different tools to perform quality control. [FastQC](https://github.com/s-andrews/FastQC/) is used to generate comprehensive report of data quality on raw data. Followed by this is a series of steps including removal of adapters, low quality reads, sequencing artifacts, phix adapters and host contamination is performed using trimmomatic, sickle and bbmap.  

@@ -5,17 +5,17 @@
 # https://www.mothur.org/wiki/MiSeq_SOP
 
 mothur_16S_workflow(){
-   #check_and_install
-   run_set_paths
+   check_and_install
+   run_set_paths  #do not uncomment this function
    run_fastqc
-   #run_mothur_preprocessing
-   #run_mothur_alignment
-   #run_mothur_post_aligment_quality_check
-   #run_mothur_classify_and_cluster_seq_to_OTUs
-   #run_mothur_phylogenetic_analysis
-   #run_mothur_downstream_analysis
-   #run_modify_phyliptre
-   #run_R_plotting
+   run_mothur_preprocessing
+   run_mothur_alignment
+   run_mothur_post_aligment_quality_check
+   run_mothur_classify_and_cluster_seq_to_OTUs
+   run_mothur_phylogenetic_analysis
+   run_mothur_downstream_analysis
+   run_modify_phyliptre
+   run_R_plotting
 }
 
 
@@ -55,8 +55,8 @@ run_fastqc(){
 }
 
 run_set_paths(){
-  mkdir -p $ANALYSIS_FOLDER/mothur_output
-  cd  $ANALYSIS_FOLDER/mothur_output
+  mkdir -p $ANALYSIS_FOLDER/mothur/mothur_output
+  cd  $ANALYSIS_FOLDER/mothur/mothur_output
   PROCESSORS=8
   PROJECT_NAME="MiSeq_16S"
 }
@@ -65,13 +65,13 @@ run_mothur_preprocessing(){
    echo "Running mothur preprocessing"
 
    ${TOOLS_FOLDER}/mothur/mothur \
-   "#make.file(inputdir=${RAWDATA_FOLDER}/MiSeq_SOP/, \
+   "#make.file(inputdir=${RAWDATA_FOLDER}/, \
    type=fastq, \
    prefix=${PROJECT_NAME})"
 
    ${TOOLS_FOLDER}/mothur/mothur \
-   "#make.contigs(file=$RAWDATA_FOLDER/MiSeq_SOP/${PROJECT_NAME}.files, \
-   inputdir=${RAWDATA_FOLDER}/MiSeq_SOP, outputdir=${ANALYSIS_FOLDER}/mothur_output/, \
+   "#make.contigs(file=$RAWDATA_FOLDER/${PROJECT_NAME}.files, \
+   inputdir=${RAWDATA_FOLDER}/, outputdir=${ANALYSIS_FOLDER}/mothur/mothur_output/, \
    processors=${PROCESSORS})"
 
    # Count number of reads after contigs
@@ -304,7 +304,7 @@ run_R_plotting(){
    -tx ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.cons.taxonomy \
    -t ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.otu_modified.phylip.tre \
    -s ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared \
-   -m ${RAWDATA_FOLDER}/MiSeq_SOP/mouse.dpw.metadata
+   -m ${RAWDATA_FOLDER}/metadata/mouse.dpw.metadata
    -o ${ANALYSIS_FOLDER}/plots
 
    echo "DONE running R plotting"

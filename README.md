@@ -153,7 +153,7 @@ Bin are functionally annotated using prokka. Refer to point 6 for database detai
 
 
 ## __II. Amplicon Sequencing Analysis Workflow__
-p style='text-align: justify;'> Two major tool categories exist: (i) Operational Taxonomic Units (OTU) based and (ii) Amplicon Sequence Variant (ASV) based tools. OTU based methods cluster the reads based on a predefined identity threshold (commonly 97%) into operational taxonomic units. On the other hand, ASV based tool utilizes a denoising approach on biological sequences in samples before the introduction of amplification and sequencing errors. In this review, we have included a stepwise systematic workflow for 16S rRNA using mothur and DADA2 and its visualization.</p>
+<p style='text-align: justify;'> Two major tool categories exist: (i) Operational Taxonomic Units (OTU) based and (ii) Amplicon Sequence Variant (ASV) based tools. OTU based methods cluster the reads based on a predefined identity threshold (commonly 97%) into operational taxonomic units. On the other hand, ASV based tool utilizes a denoising approach on biological sequences in samples before the introduction of amplification and sequencing errors. In this review, we have included a stepwise systematic workflow for 16S rRNA using mothur and DADA2 and its visualization.</p>
 
 ## Prerequisites
 <p style='text-align: justify;'> Although the "check_and_install" function is designed to install and setup the required software on the fly, there are some basic prerequisites that need to be satisfied:</p>

@@ -42,7 +42,7 @@ Without these the workflow will fail to run. </p>
 After installation the checkM database needs to be built using https://data.ace.uq.edu.au/public/CheckM_databases/ and building by using `checkm data setRoot PATH_TO_DOWNLOADED_DATABASE`</p>
 **NOTE**: Make sure checkM is placed finally under `/usr/local/bin`
 
-
+</br>
 ## Steps to run the Metagenomics workflow (metagenomics_analysis.sh)
 </br>
 **1. Preparing databases:**

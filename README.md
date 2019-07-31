@@ -23,6 +23,7 @@ Codename:       bionic <br/>
 
 'lsb_release -a' on a Ubuntu based system.
 
+
 ### Hardware:
 <p style='text-align: justify;'> It is no secret that the hardware highly influences the speed of the workflows. The most time consuming tasks are the ones that involve assemblies, reference based alignment. A modest configuration consists of 16+cores and 100 GB of RAM with 1TB of diskspace. A majority of the diskspace is occupied by reference databases like nr database, kraken database, etc. Our HW configuration consists of 20 core CPU with 125 GB.</p>
 
@@ -40,6 +41,7 @@ Without these the workflow will fail to run. </p>
 - <p style='text-align: justify;'> checkM (checkm-genome): Install instructions can be found under https://github.com/Ecogenomics/CheckM/wiki/Installation.</br>
 After installation the checkM database needs to be built using https://data.ace.uq.edu.au/public/CheckM_databases/ and building by using `checkm data setRoot PATH_TO_DOWNLOADED_DATABASE`</p>
 **NOTE**: Make sure checkM is placed finally under `/usr/local/bin`
+
 
 ## Steps to run the Metagenomics workflow (metagenomics_analysis.sh)
 </br>

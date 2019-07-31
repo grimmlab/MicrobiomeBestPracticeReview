@@ -40,7 +40,8 @@ Without these the workflow will fail to run. </p>
 - <p style='text-align: justify;'>  metabat: Install instructions can be found under https://bitbucket.org/berkeleylab/metabat/src/master/README.md. Metabat should be visible in the system PATH.</p>
 - <p style='text-align: justify;'> checkM (checkm-genome): Install instructions can be found under https://github.com/Ecogenomics/CheckM/wiki/Installation.</br>
 After installation the checkM database needs to be built using https://data.ace.uq.edu.au/public/CheckM_databases/ and building by using `checkm data setRoot PATH_TO_DOWNLOADED_DATABASE`</p>
-**NOTE**: Make sure checkM is placed finally under `/usr/local/bin`
+
+__NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
 ## Steps to run the Metagenomics workflow (metagenomics_analysis.sh)
   **1. Preparing databases:**

@@ -181,7 +181,7 @@ Without these the workflow will fail to run.
 In this workflow the precompiled binaries for Mothur is used which will be automatically downloaded.
 
 ## Example data
-This example data is a 16S rRNA gene region of gut samples collected longitudinally from a mouse post-weaning. The fastq files are generated on Miseq platform with 2X250 for V4 region.
+This example data is a 16S rRNA gene region of gut samples collected longitudinally from a mouse post-weaning. The fastq files are generated on Miseq platform with 2X250 for V4 region. Example data is taken from mothurs [miseq SOP](http://www.mothur.org/wiki/MiSeq_SOP).
 
 
 ## Steps to run the Amplicon workflow (amplicon_analysis.sh)
@@ -217,7 +217,7 @@ http://www.mothur.org/w/images/6/68/Gg_13_8_99.taxonomy.tgz
 wget https://www.mothur.org/w/images/c/c3/Trainset16_022016.pds.tgz
 
 **4. Run the workflow**:
-The `amplicon_analysis.sh` consist of two main work flows which are called automatically. The example data used is from  mothur and dada2 workflow is [miseq SOP](http://www.mothur.org/wiki/MiSeq_SOP)
+The `amplicon_analysis.sh` consist of two main work flows which are called automatically. The example data is tested for mothur and dada2 workflows
 
 Finally, the workflow is ready to be run!
 ```bash

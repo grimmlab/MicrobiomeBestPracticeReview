@@ -107,7 +107,7 @@ __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
   <p style='text-align: justify;'> The script consists of several sub-scripts and functions. Each sub-script has its own "check_and_install". The "check_and_install" checks for the tools required to run the respective script and installs them if they are missing.</p>
 
-  <p style='text-align: justify;'> **NOTE**: The installation of Megan is an interactive installation and requires the user to input Y/N and memory options(between ~8GB-16GB depending on sample size). We recommend to use default options. Megan will be installed in the user home directory.</p>
+**NOTE**:<p style='text-align: justify;'>The installation of Megan is an interactive installation and requires the user to input Y/N and memory options(between ~8GB-16GB depending on sample size). We recommend to use default options. Megan will be installed in the user home directory.</p>
 
 
 ## Step-by-Step Analysis

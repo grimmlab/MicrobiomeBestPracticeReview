@@ -11,8 +11,8 @@ SRC_RAWDATA='/data1/Active_Projects/Metagenomic_QC/rawdata/'
 
 amplicon_analysis_main(){
    create_folders
-   set_variables # -> Never comment this function 
-   #fetch_example_data # -> Uncomment this function if you want to run it on an example data 
+   set_variables # -> Never comment this function
+   #fetch_example_data # -> Uncomment this function if you want to run it on an example data
    copy_rawdata
    download_reference_database
    #run_mothur_workflow
@@ -88,10 +88,10 @@ fetch_example_data(){
    SRC_RAWDATA=$NAME/example_data
 }
 
-# copy raw data from source folder to analysis folder structure 
+# copy raw data from source folder to analysis folder structure
 copy_rawdata(){
    lst=$(ls -d $SRC_RAWDATA/*.fastq)
-   for file in $lst 
+   for file in $lst
    do
       echo "Copying ${file}"
       cp ${file} ${RAWDATA_FOLDER}/
@@ -140,26 +140,26 @@ download_reference_database(){
    echo "DONE running download reference database"
 }
 
-# Run mothur analysis 
+# Run mothur analysis
 run_mothur_workflow(){
-   echo "Running mothur workflow" 
+   echo "Running mothur workflow"
 
    . ./mothur_workflow.sh
 
-   echo "DONE running mothur workflow" 
+   echo "DONE running mothur workflow"
 }
 
-# Run dada2 analysis 
+# Run dada2 analysis
 run_dada2_workflow(){
-   echo "Running dada2 workflow" 
+   echo "Running dada2 workflow"
 
    mkdir -p ${ANALYSIS_FOLDER}/dada2/outdir/plots/
-   Rscript dada2_workflow.R 
+   Rscript dada2_workflow.R
            --input ${RAWDATA_FOLDER}/ \
 	   --output ${ANALYSIS_FOLDER}/dada2/outdir/ \
 	   --reference ${REFERENCE_FOLDER}/dada2/
 
-   echo "DONE running dada2 workflow" 
+   echo "DONE running dada2 workflow"
 }
 
 amplicon_analysis_main

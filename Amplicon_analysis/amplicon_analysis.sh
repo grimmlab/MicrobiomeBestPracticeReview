@@ -7,7 +7,7 @@ NAME=Amplicon_analysis
 
 # Raw data folder path
 SRC_RAWDATA='/data1/Active_Projects/Metagenomic_QC/rawdata/'
-LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
+#LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
 
 amplicon_analysis_main(){
    create_folders
@@ -42,7 +42,7 @@ set_variables(){
    export ANALYSIS_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/analysis
    export REFERENCE_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/reference
    export BIN_FOLDER=$(pwd)/bin
-   export LINKPATH_DB=$LINKPATH_DB
+   #export LINKPATH_DB=$LINKPATH_DB
 
    echo "DONE setting variables for paths!"
 }

@@ -3,6 +3,7 @@
 # Currently it is tested with mothur miseq example dataset
 # Script can be run with Rscript dada2_16S_worflow.R --input inputfolder --output --outputfolder
 
+library(dada2); packageVersion("dada2")
 library(argparser, quietly=TRUE)
 
 p <- arg_parser("DADA2 in R")

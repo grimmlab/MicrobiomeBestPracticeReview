@@ -15,8 +15,8 @@ amplicon_analysis_main(){
    #fetch_example_data # -> Uncomment this function if you want to run it on an example data
    #copy_rawdata
    #download_reference_database
-   run_mothur_workflow
-   #run_dada2_workflow
+   #run_mothur_workflow
+   run_dada2_workflow
 }
 
 create_folders(){
@@ -50,7 +50,7 @@ set_variables(){
 fetch_example_data(){
 
    mkdir -p $NAME/example_data
-
+   mkdir -p $NAME/metadata   
    cd $NAME/example_data
 
    # Download test data
@@ -81,6 +81,9 @@ fetch_example_data(){
    rm Mock_S280_*
    rm HMP_MOCK.v35.fasta
    mv *.fastq ../
+   cd ..
+   cd $NAME/metadata
+   cp MiSeq_SOP *.metadata $NAME/metadata
    cd ..
    rm MiSeq_SOP -rf
    rm -rf MiSeqSOPData.zip
@@ -158,7 +161,7 @@ run_dada2_workflow(){
            --input ${RAWDATA_FOLDER}/ \
 	   --output ${ANALYSIS_FOLDER}/dada2/outdir/ \
 	   --reference ${REFERENCE_FOLDER}/dada2/
-
+           --plots ${ANALYSIS_FOLDER}/dada2/outdir/plots
    echo "DONE running dada2 workflow"
 }
 

@@ -5,16 +5,17 @@
 # https://www.mothur.org/wiki/MiSeq_SOP
 
 mothur_16S_workflow(){
-   check_and_install
+   #check_and_install
+   run_set_paths
    run_fastqc
-   run_mothur_preprocessing
-   run_mothur_alignment
-   run_mothur_post_aligment_quality_check
-   run_mothur_classify_and_cluster_seq_to_OTUs
-   run_mothur_phylogenetic_analysis
-   run_mothur_downstream_analysis
-   run_modify_phyliptre
-   run_R_plotting
+   #run_mothur_preprocessing
+   #run_mothur_alignment
+   #run_mothur_post_aligment_quality_check
+   #run_mothur_classify_and_cluster_seq_to_OTUs
+   #run_mothur_phylogenetic_analysis
+   #run_mothur_downstream_analysis
+   #run_modify_phyliptre
+   #run_R_plotting
 }
 
 
@@ -33,6 +34,8 @@ check_and_install(){
    wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_${FASTQC_VERSION}.zip
    unzip fastqc_${FASTQC_VERSION}.zip
    cd $TOOLS_FOLDER/FastQC
+   chmod 755 fastqc
+   cd ..
    rm fastqc_${FASTQC_VERSION}.zip
 
    echo "DONE running check and install for mothur workflow"
@@ -43,7 +46,8 @@ run_fastqc(){
 
    cd ${ANALYSIS_FOLDER}
    mkdir -p ${ANALYSIS_FOLDER}/QC
-   find ${RAWDATA_FOLDER}/MiSeq_SOP/ -name "*.fastq" | xargs -n 1 ${TOOLS_FOLDER}/FastQC/fastqc -o QC/
+   chmod 755 fastqc
+   find ${RAWDATA_FOLDER}/ -name "*.fastq" | xargs -n 1 ${TOOLS_FOLDER}/FastQC/fastqc -o QC/
    cd ${ANALYSIS_FOLDER}/QC
    #unzip *.zip
 

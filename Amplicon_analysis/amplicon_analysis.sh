@@ -3,20 +3,20 @@
 ### Workflow for amplicon analysis for bacterial data
 
 # Root folder name"
-NAME=Amplicon_analysis
+NAME=TEST_analysis
 
 # Raw data folder path
 SRC_RAWDATA='/data1/Active_Projects/Metagenomic_QC/rawdata/'
 #LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
 
 amplicon_analysis_main(){
-   create_folders
+   #create_folders
    set_variables # -> Never comment this function
    #fetch_example_data # -> Uncomment this function if you want to run it on an example data
-   copy_rawdata
-   download_reference_database
-   #run_mothur_workflow
-   run_dada2_workflow
+   #copy_rawdata
+   #download_reference_database
+   run_mothur_workflow
+   #run_dada2_workflow
 }
 
 create_folders(){
@@ -77,12 +77,12 @@ fetch_example_data(){
 
    wget www.mothur.org/w/images/d/d6/MiSeqSOPData.zip
    unzip MiSeqSOPData.zip
-   cd MiSeqSOPData
+   cd MiSeq_SOP
    rm Mock_S280_*
    rm HMP_MOCK.v35.fasta
    mv *.fastq ../
    cd ..
-   rm MiSeqSOPData -rf
+   rm MiSeq_SOP -rf
    rm -rf MiSeqSOPData.zip
 
    SRC_RAWDATA=$NAME/example_data

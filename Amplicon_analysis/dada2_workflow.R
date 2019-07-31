@@ -11,7 +11,7 @@ p <- arg_parser("DADA2 in R")
 p = add_argument(p, "--input", help="Enter input folder", type='character')
 p = add_argument(p, "--output", help="Enter output folder", type='character')
 p = add_argument(p, "--reference", help="Enter reference folder", type='character')
-
+p = add_argument(p, "--plots", help="Enter plot folder path", type='character')
 
 # Parse the command line arguments
 argv <- parse_args(p)
@@ -19,6 +19,7 @@ argv <- parse_args(p)
 path = argv$input
 outdir = argv$output
 reference = argv$reference
+p_outdir = argv$plots
 
 #print(path)
 #print(outdir)
@@ -43,7 +44,7 @@ sample.names <- sapply(strsplit(basename(fnFs), "_"), `[`, 1)  #change based on 
 ####################################################################
 # Visualizing the quality profiles of the forward and reverse reads
 ####################################################################
-pdf(paste0(outdir,"/plots/dada2_plotQualityProfile.pdf"), onefile=T)
+pdf(paste0(p_outdir,"dada2_plotQualityProfile.pdf"), onefile=T)
 plotQualityProfile(fnFs[1:2])
 plotQualityProfile(fnRs[1:2])
 dev.off()
@@ -71,7 +72,7 @@ out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(240,160),
 
 
 ## Examine quality profiles of filtered reads
-pdf(paste0(outdir,"/plots/plotQualityProfile.filt.pdf"), onefile=T)
+pdf(paste0(p_outdir, "QualityProfile.filt_plot.pdf")) onefile=T)
 plotQualityProfile(filtFs[1:2])
 plotQualityProfile(filtRs[1:2])
 dev.off()
@@ -86,11 +87,11 @@ errF <- learnErrors(filtFs, multithread=TRUE)
 errR <- learnErrors(filtRs, multithread=TRUE)
 
 ## Plot estimated error as sanity check
-pdf(paste0(outdir,"/plots/ErrorsRates_F.pdf"), onefile=T)
+pdf(paste0(p_outdir, "ErrorsRates_F.pdf")), onefile=T)
 plotErrors(errF, nominalQ=TRUE)
 dev.off()
 
-pdf(paste0(outdir,"/plots/ErrorsRates_R.pdf"), onefile=T)
+pdf(paste0(p_outdir,"ErrorsRates_R.pdf"), onefile=T)
 plotErrors(errR, nominalQ=TRUE)
 dev.off()
 

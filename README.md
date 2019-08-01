@@ -154,7 +154,7 @@ The indexed contigs sequences are backmapped on its own reads to create sam and 
 **9. Bin functional classification `(run_bin_functional_classification.sh)`**:
 Bin are functionally annotated using prokka. Refer to point 6 for database detail.
 
-</br>
+
 ## __II. Amplicon Sequencing Analysis Workflow__
 <p style='text-align: justify;'> For amplicon data analysis two major tool categories exist: (i) Operational Taxonomic Units (OTU) based and (ii) Amplicon Sequence Variant (ASV) based tools. OTU based methods cluster the reads based on a predefined identity threshold (commonly 97%) into operational taxonomic units. On the other hand, ASV based tool utilizes a denoising approach on biological sequences in samples before the introduction of amplification and sequencing errors. In this review, we have included a stepwise systematic workflow for V4 region of 16S rRNA using mothur and DADA2 and its visualization.</p>
 

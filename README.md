@@ -2,7 +2,7 @@
 
 <p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon, using the standard mothur and dada2, and along with it some standard visualization are provided for the processed data. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
 
-<p style='text-align: justify;'> Both the workflows are controlled by bash scripts: `amplicon_analysis.sh` and `metagenomics_analysis.sh`. The bash scripts contain functions which call the respective underlying tools. Of-course, the tools have to exist in the system before using them, hence, a function called as `check_and_install` is written into each script which checks if the tools exists in a certain path or not.</p>
+Both the workflows are controlled by bash scripts: `amplicon_analysis.sh` and `metagenomics_analysis.sh`. <p style='text-align: justify;'> The bash scripts contain functions which call the respective underlying tools. Of-course, the tools have to exist in the system before using them, hence, a function called as</p> `check_and_install` <p style='text-align: justify;'> is written into each script which checks if the tools exists in a certain path or not.</p>
 
 <p style='text-align: justify;'> Since the workflows utilize so many different tools, it requires quiet a bit of patience for the download and installation process. Please go through the steps below before you begin to use the workflows.</p>
 
@@ -43,11 +43,15 @@ After installation the checkM database needs to be built using https://data.ace.
 
 __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
+## EXAMPLE DATA:
+The example data for metagenomics workflow is taken from the metaHIT gut survey. Can be found [here](ftp.sra.ebi.ac.uk/vol1/fastq/ERR011/) or [here](). We have tested for only one sample but you can use more than one sample
+
+
 ## Steps to run the Metagenomics workflow (`metagenomics_analysis.sh`)
 
   **1. Preparing databases:**
   ```bash
-  sh prepare_databases.sh
+  sh prepare_databases.sh 
   ```
   Insert the `LINKPATH_DB=/xxx/.../references/ to 'metagenomics_analysis.sh'`
   
@@ -55,7 +59,7 @@ __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
   LINKPATH_DB=/xxx/.../references/
   ```
   
- <p style='text-align: justify;'> The databases form the core of the workflows. Unfortunately, the databases are huge and  take a long time to download and index. If these databases already exist in your system pleease modify the scripts with the correct paths. Otherwise choose the missing databases and run `prepare_databases.sh` where the databases will be installed under the `references` in the current directory. At the end of the preparation of databases a path will shown in the stdout which needs to be plug-in to the `metagenomics_analysis.sh` script (to LINKPATH_DB variable). </p>
+ <p style='text-align: justify;'> The databases form the core of the workflows. Unfortunately, the databases are huge and  take a long time to download and index. If these databases already exist in your system pleease modify the scripts with the correct paths. Otherwise choose the missing databases and run </p> `prepare_databases.sh` <p style='text-align: justify;'> where the databases will be installed under the `references` in the current directory. At the end of the preparation of databases a path will shown in the stdout which needs to be plug-in to the `metagenomics_analysis.sh` script (to LINKPATH_DB variable). </p>
 
   The following databases are installed:
   - Human and Mouse reference genome:
@@ -89,7 +93,9 @@ __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
   ```bash
   SRC_RAWDATA=/path_to_my_rawdata_samples/.../.../
   ```
-  **NOTE**: <p style='text-align: justify;'> The sample data must always be paired end and compressed in the\*.fastq.gz format. Also the names of the pair must end with \*\_1.fastq.gz and \*\_2.fastq.gz. Example: "Sample\_1.fastq.gz" and "Sample\_2.fastq.gz". </p>
+  (or use your own unzipped, demultiplexed, paired-end Illumina reads
+
+  **NOTE**: <p style='text-align: justify;'> The sample reads must always be paired-end, demultiplexed and compressed in the\*.fastq.gz format. Also the names of the pair must end with \*\_1.fastq.gz and \*\_2.fastq.gz. Example: "Sample\_1.fastq.gz" and "Sample\_2.fastq.gz". </p>
 
 
 **3. Set name of workflow**

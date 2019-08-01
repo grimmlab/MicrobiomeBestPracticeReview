@@ -1,6 +1,6 @@
 # __Introduction__
 
-<p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon,  using the standard mothur workflow, and along with it visualization methods for the mothur output. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
+<p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon,  using the standard mothur and dada2 workflow, and along with it visualization methods for the mothur output. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
 
 <p style='text-align: justify;'> Both the workflows are controlled by bash scripts: amplicon_analysis.sh and metagenomics_analysis.sh. The bash scripts contain functions which call the respective underlying tools. Of-course, the tools have to exist in the system before using them, hence, a function called as "check_and_install" is written into each script which checks if the tools exists in a certain path or not.</p>
 

@@ -1,8 +1,8 @@
 # __Introduction__
 
-<p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon,  using the standard mothur and dada2 workflow, and along with it visualization methods for the mothur output. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
+<p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon, using the standard mothur and dada2, and along with it some standard visualization are provided for the processed data. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
 
-<p style='text-align: justify;'> Both the workflows are controlled by bash scripts: amplicon_analysis.sh and metagenomics_analysis.sh. The bash scripts contain functions which call the respective underlying tools. Of-course, the tools have to exist in the system before using them, hence, a function called as "check_and_install" is written into each script which checks if the tools exists in a certain path or not.</p>
+<p style='text-align: justify;'> Both the workflows are controlled by bash scripts: `amplicon_analysis.sh` and `metagenomics_analysis.sh`. The bash scripts contain functions which call the respective underlying tools. Of-course, the tools have to exist in the system before using them, hence, a function called as `check_and_install` is written into each script which checks if the tools exists in a certain path or not.</p>
 
 <p style='text-align: justify;'> Since the workflows utilize so many different tools, it requires quiet a bit of patience for the download and installation process. Please go through the steps below before you begin to use the workflows.</p>
 
@@ -37,22 +37,25 @@ Without these the workflow will fail to run. </p>
 - perl libraries (Bio)
 - R
 - git
-- <p style='text-align: justify;'>  metabat: Install instructions can be found under https://bitbucket.org/berkeleylab/metabat/src/master/README.md. Metabat should be visible in the system PATH.</p>
-- <p style='text-align: justify;'> checkM (checkm-genome): Install instructions can be found under https://github.com/Ecogenomics/CheckM/wiki/Installation.</br>
+- metabat: <p style='text-align: justify;'> Install instructions can be found under https://bitbucket.org/berkeleylab/metabat/src/master/README.md. Metabat should be visible in the system PATH.</p>
+- checkM (checkm-genome): <p style='text-align: justify;'> Install instructions can be found under https://github.com/Ecogenomics/CheckM/wiki/Installation.</br>
 After installation the checkM database needs to be built using https://data.ace.uq.edu.au/public/CheckM_databases/ and building by using `checkm data setRoot PATH_TO_DOWNLOADED_DATABASE`</p>
 
 __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
-## Steps to run the Metagenomics workflow (metagenomics_analysis.sh)
+## Steps to run the Metagenomics workflow (`metagenomics_analysis.sh`)
+
   **1. Preparing databases:**
   ```bash
   sh prepare_databases.sh
   ```
   Insert the `LINKPATH_DB=/xxx/.../references/ to 'metagenomics_analysis.sh'`
+  
   ```bash
   LINKPATH_DB=/xxx/.../references/
   ```
-  <p style='text-align: justify;'> The databases form the core of the workflows. Unfortunately, the databases are huge and  take a long time to download and index. If these databases already exist in your system pleease modify the scripts with the correct paths. Otherwise choose the missing databases and run 'prepare_databases.sh' where the databases will be installed under the 'references' in the current directory. At the end of the preparation of databases a path will shown in the stdout which needs to be plug-in to the metabgenomics_analysis.sh script (to LINKPATH_DB variable). </p>
+  
+ <p style='text-align: justify;'> The databases form the core of the workflows. Unfortunately, the databases are huge and  take a long time to download and index. If these databases already exist in your system pleease modify the scripts with the correct paths. Otherwise choose the missing databases and run `prepare_databases.sh` where the databases will be installed under the `references` in the current directory. At the end of the preparation of databases a path will shown in the stdout which needs to be plug-in to the `metagenomics_analysis.sh` script (to LINKPATH_DB variable). </p>
 
   The following databases are installed:
   - Human and Mouse reference genome:
@@ -81,17 +84,17 @@ __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
 **2. Add source path for raw data**
 
-  <p style='text-align: justify;'> In the 'metagenomics_analysis.sh' add the path for the raw-data. Please note that the workflow will make a local copy of the rawdata before proceeding further.</p>
+  <p style='text-align: justify;'> In the `metagenomics_analysis.sh` add the path for the rawdata. Please note that the workflow will make a local copy of the rawdata before proceeding further.</p>
 
   ```bash
   SRC_RAWDATA=/path_to_my_rawdata_samples/.../.../
   ```
-  <p style='text-align: justify;'> **NOTE**: The sample data must always be paired end and compressed in the\*.fastq.gz format. Also the names of the pair must end with \*\_1.fastq.gz and \*\_2.fastq.gz. Example: Sample\_1.fastq.gz and Sample\_2.fastq.gz. </p>
+  **NOTE**: <p style='text-align: justify;'> The sample data must always be paired end and compressed in the\*.fastq.gz format. Also the names of the pair must end with \*\_1.fastq.gz and \*\_2.fastq.gz. Example: "Sample\_1.fastq.gz" and "Sample\_2.fastq.gz". </p>
 
 
 **3. Set name of workflow**
 
-<p style='text-align: justify;'>  Next choose an appropriate name for the analysis in the 'metagenomics_analysis.sh' script. All the sub-folders like tools, analysis, rawdata copy, etc will be created under this folder name. </p>
+<p style='text-align: justify;'>  Next choose an appropriate name for the analysis in the `metagenomics_analysis.sh` script. All the sub-folders like tools, analysis, rawdata copy, etc will be created under this folder name. </p>
 
   ```bash
   NAME=MY_METAGENOMIC_ANALYSIS_EXP
@@ -107,7 +110,7 @@ __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
   <p style='text-align: justify;'> The script consists of several sub-scripts and functions. Each sub-script has its own "check_and_install". The "check_and_install" checks for the tools required to run the respective script and installs them if they are missing.</p>
 
-**NOTE**:<p style='text-align: justify;'>The installation of Megan is an interactive installation and requires the user to input Y/N and memory options(between ~8GB-16GB depending on sample size). We recommend to use default options. Megan will be installed in the user home directory.</p>
+**NOTE**:<p style='text-align: justify;'>The installation of Megan is an interactive installation and requires the user to input Y/N and memory options(between ~3GB-16GB depending on sample size). We recommend to use default options. Megan will be installed in the user home directory.</p>
 
 
 ## Step-by-Step Analysis
@@ -136,12 +139,12 @@ If the appropriate steps have already been run, then these can be commented and 
 
 **3. Metagenomic Coassembly `(run_coassembly.sh)`**: <p style='text-align: justify;'> This step is similar to step 2. except that here the samples are assembled in group with Megahit and SPAdes. </p>
 
-**4. Reference based analysis `(run_reference_analysis.sh)`:** <p style='text-align: justify;'>The use of reference based is bit complicated due to the fact that here we are dealing not with single genome but to the unknown number and distribution. There way to deal with this by using all the available prokaryotic genomes and align them to the reads or use marker gene approach. In this step, different state of art tools like kraken2 and metaphlan2, Diamond, Megan and Humann2 are used to classify the output reads from quality control step. Diamond blastx is performed against NR database and meganized using megan databases. This output can be visualized on megan6 software for different options. Also, humann2 which is a reference based pipeline itself for taxonomic and functional Classification has also been integrated in this script. </p>
+**4. Reference based analysis `(run_reference_analysis.sh)`:** <p style='text-align: justify;'>The use of reference based is bit complicated due to the fact that here we are dealing not with single genome but to the unknown number and distribution. There way to deal with this by using all the available prokaryotic genomes and align them to the reads or use marker gene approach. In this step, different state of art tools like kraken2 and metaphlan2, Diamond, Megan and Humann2 are used to classify the output reads from quality control step. Diamond blastx is performed against NR database and meganized using megan databases. This output can be visualized on megan6 software for different options. Also, humann2 which is a reference based pipeline itself for taxonomic and functional classification has also been integrated in this script. </p>
 
-**5. Comparative analysis `(run_comparative_analysis)`**: <p style='text-align: justify;'>The assembled filtered contigs are then used for taxonomic classification and functional annotation using kraken, diamond, megan and prokka. Prokka annotate the data by predicting genes using Prodigal and then perform functional annotation on these genes. For homology search prokka uses CDD PFAM, TIGRFAM  databases on prodigal translated protein output. </p>
+**5. Comparative analysis `(run_comparative_analysis)`**: <p style='text-align: justify;'>
+The assembled filtered contigs are then  annotated by finding the genes and perform taxonomic and functional annotation using kraken, diamond, megan and prokka. Wide range of ways are available to perform this , here were are using PROKKA which used open source tools and databased for profiling. Prokka annotate the contigs by predicting genes using Prodigal and then perform functional annotation on these genes. For homology search prokka uses CDD, PFAM, TIGRAM databases on prodigal translated protein output.</p>
 
-
-**6. Coverage and binning `(run_coverage_and_bining)`**: <p style='text-align: justify;'> In this script spade contigs are used for further analysis due to good stats but user can change this in `run_coverage_and_bining` script in "ref" variable. </br>
+**6. Coverage and binning `(run_coverage_and_bining)`**: <p style='text-align: justify;'> In this script contigs frm spade assembler are used for further analysis (due to good assmebly stats) but user can change this in `run_coverage_and_bining` script in "ref" variable. </br>
 The indexed contigs sequences are backmapped on its own reads to create sam and bam file using BBMAP. The generated bam file can be used in IGV/IGB viewer for checking the alignment statistics. Depth file is generated from sorted bam file, which is then used for binning. The two binning tools used are Metabat and Maxbin. Along with known species, binning attempt to recover uncultivated microbial populations which might be paying an important role in a particular sample.</p>
 
 **7. Bin refinement `(run_binrefinement.sh)`**: <p style='text-align: justify;'> Different binning tools lead to different and uncertain binning results. This could be due to different algorithm behind these tools.In this step we are using two programs Binning_refiner and CheckM. Binning_refiner merges the results of different binning programs and significantly reduce the contamination level of genome bins and increase the total size of contamination-free and “good-quality” genome bins. CheckM, provides a set of tools for assessing the quality of genomes recovered from metagenomes. CheckM also provides tools for identifying genome bins that are likely candidates for merging based on marker set compatibility, similarity in genomic characteristics, and proximity within a reference genome tree.</p>

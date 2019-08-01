@@ -25,7 +25,7 @@ Codename:       bionic <br/>
 
 
 ### Hardware:
-<p style='text-align: justify;'> It is no secret that the hardware highly influences the speed of the workflows. The most time consuming tasks are the ones that involve assemblies, reference based alignment. A modest configuration consists of 16+cores and 100 GB of RAM with 1TB of diskspace. A majority of the diskspace is occupied by reference databases like nr database, kraken database, etc. Our HW configuration consists of 20 core CPU with 125 GB.</p>
+<p style='text-align: justify;'> It is no secret that the hardware highly influences the speed of the workflows. The most time consuming tasks are the ones that involve assemblies, reference based alignment. A modest configuration consists of 16+cores and 100 GB of RAM with 1TB of diskspace. A majority of the diskspace is occupied by reference databases like nr database, kraken database, etc. Our HW configuration consists of 20 core CPU with 128 GB.</p>
 
 ### Software and packages
 <p style='text-align: justify;'> Some software should be installed by the user directly as the workflow depends on a lot of external software.

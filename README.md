@@ -115,9 +115,9 @@ __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
 ## Step-by-Step Analysis
 
-<p style='text-align: justify;'>The metagenomics workflow is a time-consuming workflow. Hence, the bash scripts are kept as simple as possible. In order to perform only one type of analysis, you can always comment the remaining functions.</br>
+<p style='text-align: justify;'> The metagenomics workflow is a time-consuming workflow. Hence, the bash scripts are kept as simple as possible. In order to perform only one type of analysis, you can always comment the remaining functions.</br>
 
-For example, the quality control (`run_qc`) can be run only once initially and then commented for any further analysis for reruns. </br>
+For example, the quality control function (`run_qc`) can be run only once initially and then commented for any further analysis for reruns. </br>
 
 If the appropriate steps have already been run, then these can be commented and other steps can be run. This is of-course, not true for steps dependent on previous outputs. </p>
 
@@ -147,19 +147,21 @@ The assembled filtered contigs are then  annotated by finding the genes and perf
 **6. Coverage and binning `(run_coverage_and_bining)`**: <p style='text-align: justify;'> In this script contigs frm spade assembler are used for further analysis (due to good assmebly stats) but user can change this in `run_coverage_and_bining` script in "ref" variable. </br>
 The indexed contigs sequences are backmapped on its own reads to create sam and bam file using BBMAP. The generated bam file can be used in IGV/IGB viewer for checking the alignment statistics. Depth file is generated from sorted bam file, which is then used for binning. The two binning tools used are Metabat and Maxbin. Along with known species, binning attempt to recover uncultivated microbial populations which might be paying an important role in a particular sample.</p>
 
-**7. Bin refinement `(run_binrefinement.sh)`**: <p style='text-align: justify;'> Different binning tools lead to different and uncertain binning results. This could be due to different algorithm behind these tools. In this step we are using two programs <style="font- family :font-family: Verdana">Binning_refiner</style> and <span style="font- family :Consolas">CheckM </span>. Binning_refiner merges the results of different binning programs and significantly reduce the contamination level of genome bins and increase the total size of contamination-free and “good-quality” genome bins. CheckM, provides a set of tools for assessing the quality of genomes recovered from metagenomes. CheckM also provides tools for identifying genome bins that are likely candidates for merging based on marker set compatibility, similarity in genomic characteristics, and proximity within a reference genome tree.</p>
+**7. Bin refinement `(run_binrefinement.sh)`**: <p style='text-align: justify;'> Different binning tools lead to different and uncertain binning results. This could be due to different algorithm behind these tools. In this step we are using two programs Binning_refiner and CheckM. Binning_refiner merges the results of different binning programs and significantly reduce the contamination level of genome bins and increase the total size of contamination-free and good-quality genome bins. CheckM, provides a set of tools for assessing the quality of genomes recovered from metagenomes. CheckM also provides tools for identifying genome bins that are likely candidates for merging based on marker set compatibility, similarity in genomic characteristics, and proximity within a reference genome tree.</p>
 
 **8. Bin taxonomic classification `(run_bin_taxonomic_classification.sh)`**: To assign taxonomic labels to the bins Kraken2 is used.</p>
 
 **9. Bin functional classification `(run_bin_functional_classification.sh)`**:
 Bin are functionally annotated using prokka. Refer to point 6 for database detail.
 
-
+</br>
 ## __II. Amplicon Sequencing Analysis Workflow__
-<p style='text-align: justify;'> Two major tool categories exist: (i) Operational Taxonomic Units (OTU) based and (ii) Amplicon Sequence Variant (ASV) based tools. OTU based methods cluster the reads based on a predefined identity threshold (commonly 97%) into operational taxonomic units. On the other hand, ASV based tool utilizes a denoising approach on biological sequences in samples before the introduction of amplification and sequencing errors. In this review, we have included a stepwise systematic workflow for 16S rRNA using mothur and DADA2 and its visualization.</p>
+<p style='text-align: justify;'> For amplicon data analysis two major tool categories exist: (i) Operational Taxonomic Units (OTU) based and (ii) Amplicon Sequence Variant (ASV) based tools. OTU based methods cluster the reads based on a predefined identity threshold (commonly 97%) into operational taxonomic units. On the other hand, ASV based tool utilizes a denoising approach on biological sequences in samples before the introduction of amplification and sequencing errors. In this review, we have included a stepwise systematic workflow for V4 region of 16S rRNA using mothur and DADA2 and its visualization.</p>
+
+**NOTE**: If you have other regions of bacterial genome sequences are processed then it required manual intervention. Please make the changes in `mothur_workflow.sh`
 
 ## Prerequisites
-<p style='text-align: justify;'> Although the "check_and_install" function is designed to install and setup the required software on the fly, there are some basic prerequisites that need to be satisfied:</p>
+<p style='text-align: justify;'> Although the "check_and_install" function is designed to install and setup the required software on the fly, there are some basic prerequisites that need to be satisfied are listed below:</p>
 
 ### OS
 Any Linux based distro should work. Out test OS is:
@@ -178,25 +180,26 @@ A modest configuration consists of 4+cores and 16-32GB of RAM.
 Some software should be installed by the user directly as the workflow depends external software.</br>
 Without these the workflow will fail to run.
 
-- R  and its libraries (Phyloseq, ggplot2, DADA2, argparser)
+- R and its libraries (Phyloseq, ggplot2, DADA2, argparser)
 - Python3: pip, libraries (argparse, re, Bio)
 
 In this workflow the precompiled binaries for Mothur is used which will be automatically downloaded.
 
 ## Example data
-This example data is a 16S rRNA gene region of gut samples collected longitudinally from a mouse post-weaning. The fastq files are generated on Miseq platform with 2X250 for V4 region. Example data is taken from mothurs [miseq SOP](http://www.mothur.org/wiki/MiSeq_SOP).
+This example data is a 16S rRNA gene region of gut samples collected longitudinally from a mouse post-weaning. The fastq files are generated on Miseq platform with 2X250 for V4 region. Example data is taken from mothur's [miseq SOP](http://www.mothur.org/wiki/MiSeq_SOP).
 
 
 ## Steps to run the Amplicon workflow (amplicon_analysis.sh)
 
 **1. Add source path for raw data**:
-In the `amplicon_analysis.sh` add the path for the raw-data. Please note that the workflow will make a local copy of the rawdata before proceeding further.
+In the `amplicon_analysis.sh` add the path for the rawdata. Please note that the workflow will make a local copy of the rawdata before proceeding further.
 
 ```bash
 SRC_RAWDATA=/path_to_my_rawdata_samples/.../.../
 ```
-**NOTE**: The sample data must always be paired end and compressed in the\*.fastq.gz format.
-
+**NOTE**: The sample data must always be paired end \*.fastq e.g "Sample_1.fastq" and "Sample_2.fastq" 
+If you have compressed input the script has to be modified at certain places in order for it to work.
+ 
 **2. Set name of workflow**:
 
 Next choose an appropriate name for the analysis in the 'amplicon_analysis.sh' script. All the sub-folders like tools, analysis, rawdata copy, etc will be created under this folder name.
@@ -220,7 +223,7 @@ http://www.mothur.org/w/images/6/68/Gg_13_8_99.taxonomy.tgz
 wget https://www.mothur.org/w/images/c/c3/Trainset16_022016.pds.tgz
 
 **4. Run the workflow**:
-The `amplicon_analysis.sh` consist of two main work flows which are called automatically. The example data is tested for mothur and dada2 workflows
+The `amplicon_analysis.sh` consist of two main work flows `mothur_workflow.sh` and `dada2_workflow.sh` which are called automatically and is tested for sample dataset using both the workflows
 
 Finally, the workflow is ready to be run!
 ```bash

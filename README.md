@@ -42,8 +42,9 @@ After installation the checkM database needs to be built using https://data.ace.
 
 __NOTE__: Make sure checkM is placed finally under `/usr/local/bin`
 
-## EXAMPLE DATA:
+### Example data:
 The example data for metagenomics workflow is taken from the metaHIT gut survey and can be found [here](ftp.sra.ebi.ac.uk/vol1/fastq/ERR011/). You can download one or more sample for testing purpose.
+
 
 
 ## Steps to run the Metagenomics workflow (`metagenomics_analysis.sh`)

@@ -242,7 +242,7 @@ sh amplicon_analysis.sh
 # __Contributors__ 
 This best-practice pipeline is developed and maintened by members of the [Bioinformatics](www.bit.cs.tum.de) lab of [Prof. Dr. Dominik Grimm](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/dominik-grimm/):
 
-* Dr. Richa Bharti [Website](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/richa-bharti/)
+* Dr. Richa Bharti ([Website](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/richa-bharti/))
 
 # __Citation__
 This work is currently under review.

@@ -1,3 +1,6 @@
+![Python 3.7](https://img.shields.io/badge/Python-3.7-blue.svg) ![Ubuntu 18.04.2](https://img.shields.io/badge/Ubuntu-18.04.2-green.svg)
+
+
 # Current Challenges and Best Practice Protocols for Microbiome Analysis using Amplicon and Metagenomic Sequencing
 
 <p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon, using the standard mothur and dada2, and along with it some standard visualization are provided for the processed data. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>

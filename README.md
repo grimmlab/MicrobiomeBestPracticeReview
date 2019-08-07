@@ -1,4 +1,4 @@
-# __Introduction__
+# Current Challenges and Best Practice Protocols for Microbiome Analysis using Amplicon and Metagenomic Sequencing
 
 <p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon, using the standard mothur and dada2, and along with it some standard visualization are provided for the processed data. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
 
@@ -235,3 +235,14 @@ Finally, the workflow is ready to be run!
 ```bash
 sh amplicon_analysis.sh
 ```
+
+# __Contributors__ 
+This best-practice pipeline is developed and maintened by members of the [Bioinformatics](www.bit.cs.tum.de) lab of [Prof. Dr. Dominik Grimm](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/dominik-grimm/):
+
+* Dr. Richa Bharti [Website](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/richa-bharti/)
+
+# __Citation__
+This work is currently under review.
+
+**Current Challenges and Best Practice Protocols for Microbiome Analysis using Amplicon and Metagenomic Sequencing**  
+Richa Bharti, Dominik G Grimm

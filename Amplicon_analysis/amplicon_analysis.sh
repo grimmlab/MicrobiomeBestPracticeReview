@@ -10,13 +10,13 @@ SRC_RAWDATA='/data1/Active_Projects/paper_scripts/MicrobiomeBestPracticeReview/A
 #LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
 
 amplicon_analysis_main(){
-   create_folders
+   #create_folders
    set_variables # -> Never comment this function
-   #fetch_example_data # -> Uncomment this function if you want to run it on an example data
+   fetch_example_data # -> Uncomment this function if you want to run it on an example data
    copy_rawdata
-   #download_reference_database
-   #run_mothur_workflow
-   #run_dada2_workflow
+   download_reference_database
+   run_mothur_workflow
+   run_dada2_workflow
 }
 
 create_folders(){
@@ -111,6 +111,16 @@ download_reference_database(){
    wget http://www.mothur.org/w/images/6/68/Gg_13_8_99.taxonomy.tgz
    tar -xzvf Gg_13_8_99.taxonomy.tgz
    rm Gg_13_8_99.taxonomy.tgz
+
+   cd $REFERENCE_FOLDER
+   REFERENCE_VERSION=v132
+   mkdir -p ${REFERENCE_FOLDER}/silva
+   cd  ${REFERENCE_FOLDER}/silva
+   wget https://mothur.org/w/images/3/32/Silva.nr_${REFERENCE_VERSION}.tgz
+   tar -xzvf Silva.nr_${REFERENCE_VERSION}.tgz
+   rm Silva.nr_${REFERENCE_VERSION}.tgz
+
+
 
    # Silva database for DADA2
    cd ${REFERENCE_FOLDER}

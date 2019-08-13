@@ -14,7 +14,7 @@ Since the workflows utilize so many different tools, it requires quiet a bit of 
 Although the `check_and_install` function is designed to install and setup the required software on the fly, there are some basic prerequisites that need to be satisfied:
 
 ### OS
-Any Linux based distro should work. Out test OS is:
+Any Linux based distro should work. We tested the scripts using:
 
 Distributor ID: Ubuntu <br/>
 Description:    Ubuntu 18.04.2 LTS <br/>

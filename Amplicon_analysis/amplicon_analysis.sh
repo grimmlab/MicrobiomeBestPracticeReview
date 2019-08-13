@@ -6,17 +6,17 @@
 NAME=TEST_analysis
 
 # Raw data folder path
-SRC_RAWDATA='/data1/Active_Projects/Metagenomic_QC/rawdata/'
+SRC_RAWDATA='/data1/Active_Projects/paper_scripts/MicrobiomeBestPracticeReview/Amplicon_analysis/TEST_analysis/example_data'
 #LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
 
 amplicon_analysis_main(){
-   #create_folders
+   create_folders
    set_variables # -> Never comment this function
    #fetch_example_data # -> Uncomment this function if you want to run it on an example data
-   #copy_rawdata
+   copy_rawdata
    #download_reference_database
    #run_mothur_workflow
-   run_dada2_workflow
+   #run_dada2_workflow
 }
 
 create_folders(){
@@ -48,10 +48,20 @@ set_variables(){
 }
 
 fetch_example_data(){
-
    mkdir -p $NAME/example_data
    mkdir -p $NAME/metadata   
    cd $NAME/example_data
+   wget www.mothur.org/w/images/d/d6/MiSeqSOPData.zip
+   unzip MiSeqSOPData.zip
+   cd MiSeq_SOP
+   rm Mock_S280_*
+   rm HMP_MOCK.v35.fasta
+   mv *.fastq ../
+   cp *.metadata ../../metadata
+   cd ..
+   rm MiSeq_SOP -rf
+   rm -rf MiSeqSOPData.zip
+   SRC_RAWDATA=$NAME/example_data
 
    # Download test data
    #To test this we are using public available dataset from Multi-omics differentially Classify Disease State and Treatment Outcome in Pediatric Crohn’s Disease. In this study total 115 sample are submitted put of which 40 are 16S rRNA samples and 75 are metagenomics samples (https://www.ebi.ac.uk/ena/data/view/PRJEB21933) https://www.ncbi.nlm.nih.gov//bioproject/PRJEB21933.</br>
@@ -75,20 +85,6 @@ fetch_example_data(){
    #wget ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR204/${FILE}/S${S}_R2_001.fastq.gz
    #done
 
-   wget www.mothur.org/w/images/d/d6/MiSeqSOPData.zip
-   unzip MiSeqSOPData.zip
-   cd MiSeq_SOP
-   rm Mock_S280_*
-   rm HMP_MOCK.v35.fasta
-   mv *.fastq ../
-   cd ..
-   cd $NAME/metadata
-   cp MiSeq_SOP *.metadata $NAME/metadata
-   cd ..
-   rm MiSeq_SOP -rf
-   rm -rf MiSeqSOPData.zip
-
-   SRC_RAWDATA=$NAME/example_data
 }
 
 # copy raw data from source folder to analysis folder structure
@@ -106,23 +102,6 @@ download_reference_database(){
    echo "Running download reference database"
 
    ## Download the references and taxonomy
-   #This [blog](http://blog.mothur.org/2018/01/10/SILVA-v132-reference-files/) will help you to understand how reference can be formatted for mothur. Here we are downloading already formatted [SILVA](https://mothur.org/wiki/Silva_reference_files#Release_132) reference by mothur with following steps below
-
-   cd $REFERENCE_FOLDER
-   REFERENCE_VERSION=v132
-   mkdir -p ${REFERENCE_FOLDER}/silva
-   cd  ${REFERENCE_FOLDER}/silva
-   wget https://mothur.org/w/images/3/32/Silva.nr_${REFERENCE_VERSION}.tgz
-   tar -xzvf Silva.nr_${REFERENCE_VERSION}.tgz
-   rm Silva.nr_${REFERENCE_VERSION}.tgz
-
-
-   #RDP reference files can be download from [here](https://www.mothur.org/wiki/RDP_reference_files)
-   cd $REFERENCE_FOLDER
-   RPD_VERSION=16
-   wget https://www.mothur.org/w/images/c/c3/Trainset${RPD_VERSION}_022016.pds.tgz
-   tar -xzvf Trainset${RPD_VERSION}_022016.pds.tgz
-   rm Trainset${RPD_VERSION}_022016.pds.tgz
 
 
    #Greengenes reference files can be downloaded from  [here](https://www.mothur.org/wiki/Greengenes-formatted_databases)

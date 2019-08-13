@@ -24,7 +24,7 @@ check_and_install(){
 
    # Download and compile [Boost](https://www.boost.org/users/download/)
    cd $TOOLS_FOLDER
-   wget https://github.com/mothur/mothur/releases/download/v1.40.5/Mothur.linux_64.noReadLine.zip
+   wget https://github.com/mothur/mothur/releases/download/v.1.42.3/Mothur.linux_64_noReadline.zip
    unzip Mothur.linux_64.noReadLine.zip -d $TOOLS_FOLDER
    rm Mothur.linux_64.noReadLine.zip
 

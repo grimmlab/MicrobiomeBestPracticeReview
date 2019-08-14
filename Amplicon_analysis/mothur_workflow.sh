@@ -22,21 +22,28 @@ mothur_16S_workflow(){
 check_and_install(){
    echo "Running Check and install for mothur workflow"
 
-   # Download and compile [Boost](https://www.boost.org/users/download/)
-   cd $TOOLS_FOLDER
-   wget https://github.com/mothur/mothur/releases/download/v.1.42.3/Mothur.linux_64_noReadline.zip
-   unzip Mothur.linux_64.noReadLine.zip -d $TOOLS_FOLDER
-   rm Mothur.linux_64.noReadLine.zip
+   if [ -d "${TOOLS_FOLDER}/mothur" ]; then
+      echo "mothur already installed"
+   else
+      cd $TOOLS_FOLDER
+      wget https://github.com/mothur/mothur/releases/download/v.1.42.3/Mothur.linux_64_noReadline.zip
+      unzip Mothur.linux_64_noReadline.zip -d $TOOLS_FOLDER
+      rm Mothur.linux_64.noReadline.zip
+   fi
 
    #fastqc
    cd $TOOLS_FOLDER
-   FASTQC_VERSION=v0.11.8
-   wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_${FASTQC_VERSION}.zip
-   unzip fastqc_${FASTQC_VERSION}.zip
-   cd $TOOLS_FOLDER/FastQC
-   chmod 755 fastqc
-   cd ..
-   rm fastqc_${FASTQC_VERSION}.zip
+   if [ -d "${TOOLS_FOLDER}/FastQC" ]; then
+      echo "FastQC already installed"
+   else
+      FASTQC_VERSION=v0.11.8
+      wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_${FASTQC_VERSION}.zip
+      unzip fastqc_${FASTQC_VERSION}.zip
+      cd $TOOLS_FOLDER/FastQC
+      chmod 755 fastqc
+      cd ..
+      rm fastqc_${FASTQC_VERSION}.zip
+   fi
 
    echo "DONE running check and install for mothur workflow"
 }
@@ -46,7 +53,7 @@ run_fastqc(){
 
    cd ${ANALYSIS_FOLDER}
    mkdir -p ${ANALYSIS_FOLDER}/QC
-   chmod 755 fastqc
+   #chmod 755 fastqc
    find ${RAWDATA_FOLDER}/ -name "*.fastq" | xargs -n 1 ${TOOLS_FOLDER}/FastQC/fastqc -o QC/
    cd ${ANALYSIS_FOLDER}/QC
    #unzip *.zip
@@ -299,12 +306,12 @@ run_R_plotting(){
    echo "Running R plotting"
 
    mkdir -p ${ANALYSIS_FOLDER}/plots
-   Rscript ${BIN_FOLDER}/plot.R \
+   Rscript ${BIN_FOLDER}/plots.R \
    -l ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list \
    -tx ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.cons.taxonomy \
    -t ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.otu_modified.phylip.tre \
    -s ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared \
-   -m ${RAWDATA_FOLDER}/metadata/mouse.dpw.metadata
+   -m ${RAWDATA_FOLDER}/metadata/mouse.dpw.metadata \
    -o ${ANALYSIS_FOLDER}/plots
 
    echo "DONE running R plotting"

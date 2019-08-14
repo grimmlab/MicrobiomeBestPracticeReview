@@ -3,14 +3,14 @@
 ### Workflow for amplicon analysis for bacterial data
 
 # Root folder name"
-NAME=TEST_analysis
+NAME=TEST_analysis1
 
 # Raw data folder path
-SRC_RAWDATA='/data1/Active_Projects/paper_scripts/MicrobiomeBestPracticeReview/Amplicon_analysis/TEST_analysis/example_data'
+SRC_RAWDATA='/data1/Active_Projects/paper_scripts/Amplicon_analysis/'
 #LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
 
 amplicon_analysis_main(){
-   #create_folders
+   create_folders
    set_variables # -> Never comment this function
    fetch_example_data # -> Uncomment this function if you want to run it on an example data
    copy_rawdata
@@ -44,6 +44,7 @@ set_variables(){
    export BIN_FOLDER=$(pwd)/bin
    #export LINKPATH_DB=$LINKPATH_DB
 
+   export SRC_RAWDATA=$NAME/example_data
    echo "DONE setting variables for paths!"
 }
 
@@ -61,7 +62,7 @@ fetch_example_data(){
    cd ..
    rm MiSeq_SOP -rf
    rm -rf MiSeqSOPData.zip
-   SRC_RAWDATA=$NAME/example_data
+   export SRC_RAWDATA=$NAME/example_data
 
    # Download test data
    #To test this we are using public available dataset from Multi-omics differentially Classify Disease State and Treatment Outcome in Pediatric Crohn’s Disease. In this study total 115 sample are submitted put of which 40 are 16S rRNA samples and 75 are metagenomics samples (https://www.ebi.ac.uk/ena/data/view/PRJEB21933) https://www.ncbi.nlm.nih.gov//bioproject/PRJEB21933.</br>
@@ -146,10 +147,10 @@ run_dada2_workflow(){
    echo "Running dada2 workflow"
 
    mkdir -p ${ANALYSIS_FOLDER}/dada2/outdir/plots/
-   Rscript dada2_workflow.R
+   Rscript dada2_workflow.R \
            --input ${RAWDATA_FOLDER}/ \
 	   --output ${ANALYSIS_FOLDER}/dada2/outdir/ \
-	   --reference ${REFERENCE_FOLDER}/dada2/
+	   --reference ${REFERENCE_FOLDER}/dada2/ \
            --plots ${ANALYSIS_FOLDER}/dada2/outdir/plots
    echo "DONE running dada2 workflow"
 }

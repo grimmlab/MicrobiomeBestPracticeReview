@@ -72,7 +72,7 @@ out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(240,160),
 
 
 ## Examine quality profiles of filtered reads
-pdf(paste0(p_outdir, "QualityProfile.filt_plot.pdf")) onefile=T)
+pdf(paste0(p_outdir, "QualityProfile.filt_plot.pdf"),onefile=T)
 plotQualityProfile(filtFs[1:2])
 plotQualityProfile(filtRs[1:2])
 dev.off()
@@ -87,7 +87,7 @@ errF <- learnErrors(filtFs, multithread=TRUE)
 errR <- learnErrors(filtRs, multithread=TRUE)
 
 ## Plot estimated error as sanity check
-pdf(paste0(p_outdir, "ErrorsRates_F.pdf")), onefile=T)
+pdf(paste0(p_outdir, "ErrorsRates_F.pdf"), onefile=T)
 plotErrors(errF, nominalQ=TRUE)
 dev.off()
 
@@ -162,10 +162,10 @@ write.table(track, paste0(outdir,"/track_reads.txt"),sep="\t",quote=FALSE)
 # Assign taxonomy
 #################
 #IMP : download taxonomy file wget https://zenodo.org/record/1172783/files/silva_nr_v132_train_set.fa.gz?download=1
-taxa <- assignTaxonomy(seqtab.nochim, paste0(reference,"/silva_nr_v132_train_set.fa.gz"), multithread=TRUE)
+taxa <- assignTaxonomy(seqtab.nochim, paste0(reference,"/silva_nr_v132_train_set.fa"), multithread=TRUE)
 taxa.print <- taxa # Removing sequence rownames for display only
 rownames(taxa.print) <- NULL
 head(taxa.print)
 
-write.table(taxHS, file = paste0(outdir,"/taxa.tsv"), quote=FALSE)
+write.table(taxa, file = paste0(outdir,"/taxa.tsv"), quote=FALSE)
 

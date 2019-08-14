@@ -64,7 +64,7 @@ run_fastqc(){
 run_set_paths(){
   mkdir -p $ANALYSIS_FOLDER/mothur/mothur_output
   cd  $ANALYSIS_FOLDER/mothur/mothur_output
-  PROCESSORS=8
+  PROCESSORS=16
   PROJECT_NAME="MiSeq_16S"
 }
 
@@ -80,6 +80,10 @@ run_mothur_preprocessing(){
    "#make.contigs(file=$RAWDATA_FOLDER/${PROJECT_NAME}.files, \
    inputdir=${RAWDATA_FOLDER}/, outputdir=${ANALYSIS_FOLDER}/mothur/mothur_output/, \
    processors=${PROCESSORS})"
+
+    
+
+   cd ${ANALYSIS_FOLDER}/mothur/mothur_output/
 
    # Count number of reads after contigs
    ${TOOLS_FOLDER}/mothur/mothur \
@@ -289,7 +293,7 @@ run_modify_phyliptre(){
    fasta=${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta)"
 
    python ${BIN_FOLDER}/modify_phylip.py \
-   ${ANALYSIS_FOLDER}/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.fasta
+   ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.fasta
 
    ${TOOLS_FOLDER}/mothur/mothur \
    "#dist.seqs(fasta=${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.otu_modified.fasta, \
@@ -304,13 +308,13 @@ run_modify_phyliptre(){
 #To run this function Phyloseq pacakge should be installed
 run_R_plotting(){
    echo "Running R plotting"
-
+   
    mkdir -p ${ANALYSIS_FOLDER}/plots
    Rscript ${BIN_FOLDER}/plots.R \
-   -l ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list \
-   -tx ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.cons.taxonomy \
-   -t ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.otu_modified.phylip.tre \
-   -s ${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared \
+   -l ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list \
+   -tx ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.cons.taxonomy \
+   -t ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.otu_modified.phylip.tre \
+   -s ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared \
    -m ${RAWDATA_FOLDER}/metadata/mouse.dpw.metadata \
    -o ${ANALYSIS_FOLDER}/plots
 

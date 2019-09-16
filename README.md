@@ -243,7 +243,7 @@ This best-practice pipeline is developed and maintened by members of the [Bioinf
 * Dr. Richa Bharti ([Website](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/richa-bharti/))
 
 # __Citation__
-This work is currently under review.
+This work is currently under preparation.
 
 **Current Challenges and Best Practice Protocols for Microbiome Analysis using Amplicon and Metagenomic Sequencing**  
 Richa Bharti, Dominik G Grimm

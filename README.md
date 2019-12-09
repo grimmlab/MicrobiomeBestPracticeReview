@@ -246,5 +246,5 @@ This best-practice pipeline is developed and maintened by members of the [Bioinf
 When using this workflow, please cite our publication in Briefings in Bioinformatics:
 
 **Current Challenges and Best Practice Protocols for Microbiome Analysis**  
-Richa Bharti, Dominik G Grimm
+Richa Bharti, Dominik G Grimm  
 Briefings in Bioinformatics (BIB), 2019 (in press, https://doi.org/10.1093/bib/bbz155)

@@ -238,12 +238,12 @@ sh amplicon_analysis.sh
 ```
 
 # __Contributors__ 
-This best-practice pipeline is developed and maintened by members of the [Bioinformatics](www.bit.cs.tum.de) lab of [Prof. Dr. Dominik Grimm](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/dominik-grimm/):
+This best-practice pipeline is developed and maintened by members of the [Bioinformatics](www.bit.cs.tum.de) lab of [Prof. Dr. Dominik Grimm](https://bit.cs.tum.de/team/dominik-grimm/):
 
-* Dr. Richa Bharti ([Website](https://www.cs.tum.de/de/professuren/stoffliche-nutzung/bioinformatik/team/richa-bharti/))
+* Dr. Richa Bharti ([Website](https://bit.cs.tum.de/team/richa-bharti/))
 
 # __Citation__
-This work is currently under preparation.
+When using this workflow, please cite our publication in Briefings in Bioinformatics:
 
-**Current Challenges and Best Practice Protocols for Microbiome Analysis using Amplicon and Metagenomic Sequencing**  
-Richa Bharti, Dominik G Grimm
+**Current Challenges and Best Practice Protocols for Microbiome Analysis**  
+Richa Bharti, Dominik G Grimm, Briefings in Bioinformatics (BIB), 2019 (in press, https://doi.org/10.1093/bib/bbz155)

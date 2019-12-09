@@ -3,7 +3,7 @@
 
 # Current Challenges and Best Practice Protocols for Microbiome Analysis using Amplicon and Metagenomic Sequencing
 
-<p style='text-align: justify;'> This review paper aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon, using the standard mothur and dada2, and along with it some standard visualization are provided for the processed data. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
+<p style='text-align: justify;'> This review paper (https://doi.org/10.1093/bib/bbz155) aims to provide a comprehensive workflow to perform amplicon and shotgun metagenomics analysis. There are two workflows provided. First workflow for amplicon, using the standard mothur and dada2, and along with it some standard visualization are provided for the processed data. Second workflow for metagenomics, using a variety of tools openly available which have been stitched together to form a usable pipeline.</p>
 
 Both the workflows are controlled by bash scripts: `amplicon_analysis.sh` and `metagenomics_analysis.sh`. The bash scripts contain functions which call the respective underlying tools. Of-course, the tools have to exist in the system before using them, hence, a function called as `check_and_install` is written into each script which checks if the tools exists in a certain path or not.</br>
 Since the workflows utilize so many different tools, it requires quiet a bit of patience for the download and installation process. Please go through the steps below before you begin to use the workflows.

@@ -3,10 +3,10 @@
 ### Workflow for amplicon analysis for bacterial data
 
 # Root folder name"
-NAME=TEST_analysis1
+NAME=TEST_analysis
 
 # Raw data folder path
-SRC_RAWDATA='/data1/Active_Projects/paper_scripts/Amplicon_analysis/'
+SRC_RAWDATA='/home/richa/Desktop/MicrobiomeBestPracticeReview/Amplicon_analysis'
 #LINKPATH_DB='/data1/Active_Projects/paper_scripts/reference/'
 
 amplicon_analysis_main(){
@@ -14,9 +14,9 @@ amplicon_analysis_main(){
    set_variables # -> Never comment this function
    fetch_example_data # -> Uncomment this function if you want to run it on an example data
    copy_rawdata
-   #download_reference_database
-   #run_mothur_workflow
-   #run_dada2_workflow
+   download_reference_database
+   run_mothur_workflow
+   run_dada2_workflow
 }
 
 create_folders(){
@@ -52,8 +52,10 @@ fetch_example_data(){
    mkdir -p $NAME/example_data
    mkdir -p $NAME/metadata   
    cd $NAME/example_data
-   wget www.mothur.org/w/images/d/d6/MiSeqSOPData.zip
-   unzip MiSeqSOPData.zip
+   wget https://mothur.s3.us-east-2.amazonaws.com/wiki/miseqsopdata.zip
+   #wget www.mothur.org/w/images/d/d6/MiSeqSOPData.zip
+   echo "Richa is testing"
+   unzip miseqsopdata.zip
    cd MiSeq_SOP
    rm Mock_S280_*
    rm HMP_MOCK.v35.fasta
@@ -61,7 +63,8 @@ fetch_example_data(){
    cp *.metadata ../../metadata
    cd ..
    rm MiSeq_SOP -rf
-   rm -rf MiSeqSOPData.zip
+   rm -rf miseqsopdata.zip
+   rm -rf __MACOSX/ 
    export SRC_RAWDATA=$PWD/
 
    # Download test data
@@ -109,17 +112,19 @@ download_reference_database(){
    cd ${REFERENCE_FOLDER}
    mkdir -p ${REFERENCE_FOLDER}/greengenes
    cd  ${REFERENCE_FOLDER}/greengenes
-   wget http://www.mothur.org/w/images/6/68/Gg_13_8_99.taxonomy.tgz
-   tar -xzvf Gg_13_8_99.taxonomy.tgz
-   rm Gg_13_8_99.taxonomy.tgz
+   wget https://mothur.s3.us-east-2.amazonaws.com/wiki/gg_13_8_99.taxonomy.tgz
+   #wget http://www.mothur.org/w/images/6/68/Gg_13_8_99.taxonomy.tgz
+   tar -xzvf gg_13_8_99.taxonomy.tgz
+   rm gg_13_8_99.taxonomy.tgz
 
    cd $REFERENCE_FOLDER
    REFERENCE_VERSION=v132
    mkdir -p ${REFERENCE_FOLDER}/silva
    cd  ${REFERENCE_FOLDER}/silva
-   wget https://mothur.org/w/images/3/32/Silva.nr_${REFERENCE_VERSION}.tgz
-   tar -xzvf Silva.nr_${REFERENCE_VERSION}.tgz
-   rm Silva.nr_${REFERENCE_VERSION}.tgz
+   #wget https://mothur.org/w/images/3/32/Silva.nr_${REFERENCE_VERSION}.tgz
+   wget https://mothur.s3.us-east-2.amazonaws.com/wiki/silva.nr_${REFERENCE_VERSION}.tgz
+   tar -xzvf silva.nr_${REFERENCE_VERSION}.tgz
+   rm silva.nr_${REFERENCE_VERSION}.tgz
 
 
 
@@ -138,7 +143,7 @@ run_mothur_workflow(){
    echo "Running mothur workflow"
 
    . ./mothur_workflow.sh
-
+	
    echo "DONE running mothur workflow"
 }
 
@@ -147,11 +152,12 @@ run_dada2_workflow(){
    echo "Running dada2 workflow"
 
    mkdir -p ${ANALYSIS_FOLDER}/dada2/outdir/plots/
+	echo $PWD
    Rscript dada2_workflow.R \
-           --input ${RAWDATA_FOLDER}/ \
-	   --output ${ANALYSIS_FOLDER}/dada2/outdir/ \
-	   --reference ${REFERENCE_FOLDER}/dada2/ \
-           --plots ${ANALYSIS_FOLDER}/dada2/outdir/plots
+     --input ${RAWDATA_FOLDER}/ \
+	  --output ${ANALYSIS_FOLDER}/dada2/outdir/ \
+	  --reference ${REFERENCE_FOLDER}/dada2/ \
+     --plots ${ANALYSIS_FOLDER}/dada2/outdir/plots/
    echo "DONE running dada2 workflow"
 }
 

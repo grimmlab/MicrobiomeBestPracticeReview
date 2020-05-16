@@ -16,6 +16,7 @@ mothur_16S_workflow(){
    run_mothur_downstream_analysis
    run_modify_phyliptre
    run_R_plotting
+   cd $MYCURRDIR
 }
 
 
@@ -62,6 +63,7 @@ run_fastqc(){
 }
 
 run_set_paths(){
+  MYCURRDIR=$PWD
   mkdir -p $ANALYSIS_FOLDER/mothur/mothur_output
   cd  $ANALYSIS_FOLDER/mothur/mothur_output
   PROCESSORS=16
@@ -309,14 +311,14 @@ run_modify_phyliptre(){
 run_R_plotting(){
    echo "Running R plotting"
    
-   mkdir -p ${ANALYSIS_FOLDER}/plots
-   Rscript ${BIN_FOLDER}/plots.R \
+   mkdir -p ${ANALYSIS_FOLDER}/mothur/mothur_output/plots/
+   echo "Rscript ${BIN_FOLDER}/plots.R \
    -l ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list \
    -tx ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.cons.taxonomy \
    -t ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.otu_modified.phylip.tre \
    -s ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared \
-   -m ${RAWDATA_FOLDER}/metadata/mouse.dpw.metadata \
-   -o ${ANALYSIS_FOLDER}/plots
+   -m ${RAWDATA_FOLDER}/../metadata/mouse.dpw.metadata \
+   -o ${ANALYSIS_FOLDER}/mothur/mothur_output/plots/"
 
    echo "DONE running R plotting"
 }

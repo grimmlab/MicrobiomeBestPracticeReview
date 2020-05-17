@@ -36,6 +36,7 @@ create_folders(){
 set_variables(){
    echo "Setting variables for paths..."
 
+   
    export ROOT_FOLDER_NAME=$NAME
    export TOOLS_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/tools
    export RAWDATA_FOLDER=$(pwd)/$ROOT_FOLDER_NAME/rawdata
@@ -45,6 +46,7 @@ set_variables(){
    #export LINKPATH_DB=$LINKPATH_DB
 
    export SRC_RAWDATA=$NAME/example_data
+   export CURRDIR=$(pwd)
    echo "DONE setting variables for paths!"
 }
 
@@ -142,7 +144,9 @@ download_reference_database(){
 run_mothur_workflow(){
    echo "Running mothur workflow"
 
-   . ./mothur_workflow.sh
+   cd ${CURRDIR}
+	
+	 . ./mothur_workflow.sh
 	
    echo "DONE running mothur workflow"
 }
@@ -151,6 +155,7 @@ run_mothur_workflow(){
 run_dada2_workflow(){
    echo "Running dada2 workflow"
 
+   cd ${CURRDIR}
    mkdir -p ${ANALYSIS_FOLDER}/dada2/outdir/plots/
 	echo $PWD
    Rscript dada2_workflow.R \

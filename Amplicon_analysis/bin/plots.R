@@ -14,13 +14,11 @@ p = add_argument(p, "-o",  help="Enter path for output folder", type='character'
 
 # Parse the command line arguments
 argv <- parse_args(p)
-
 ul_list = argv$l
 tre = argv$t
 shared_file = argv$s
 taxonomy_file = argv$tx
 g_metadata_file = argv$m
-
 
 g_mothur_ps <- import_mothur(mothur_list_file =  ul_list,
                            mothur_group_file = NULL,
@@ -77,7 +75,7 @@ ggsave(paste(argv$o,"/ChaosRichness.png",sep=""), plot = bp, width = 30, height 
    size="abundance",
    min.abundance=3) +
    coord_polar(theta="y")
-ggsave(ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, height = 20, units = "cm")
+ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, height = 20, units = "cm")
 
 
 ## Calculating realtive abundance of the data
@@ -89,4 +87,4 @@ ggsave(ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, he
 #creating stacked bar graphs without border
    stacked_bar=plot_bar(GPfr, fill = "Genus") +
    geom_bar(aes(color=Genus, fill=Genus), stat="identity", position="stack")
-ggsave(ggsave(paste(argv$o,"/StackedBar.png",sep=""), plot = stacked_bar, width = 30, height = 20, units = "cm")
+ggsave(paste(argv$o,"/StackedBar.png",sep=""), plot = stacked_bar, width = 30, height = 20, units = "cm")

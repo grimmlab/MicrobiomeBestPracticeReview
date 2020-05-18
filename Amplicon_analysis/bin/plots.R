@@ -80,7 +80,7 @@ ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, height = 
 
 ## Calculating realtive abundance of the data
 ## In the following steps data is transformed to relative abundance
-   GPr  = transform_sample_counts(obj1, function(x) x / sum(x) )
+   GPr = transform_sample_counts(obj1, function(x) x / sum(x) )
    GPfr = filter_taxa(GPr, function(x) var(x) > 1e-5, TRUE)
 
 

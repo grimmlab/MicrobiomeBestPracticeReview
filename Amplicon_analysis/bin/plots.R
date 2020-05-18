@@ -77,7 +77,7 @@ ggsave(paste(argv$o,"/ChaosRichness.png",sep=""), plot = bp, width = 30, height 
    size="abundance",
    min.abundance=3) +
    coord_polar(theta="y")
-ggsave(ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, height = 20, units = "cm")
+ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, height = 20, units = "cm")
 
 
 ## Calculating realtive abundance of the data
@@ -89,4 +89,4 @@ ggsave(ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, he
 #creating stacked bar graphs without border
    stacked_bar=plot_bar(GPfr, fill = "Genus") +
    geom_bar(aes(color=Genus, fill=Genus), stat="identity", position="stack")
-ggsave(ggsave(paste(argv$o,"/StackedBar.png",sep=""), plot = stacked_bar, width = 30, height = 20, units = "cm")
+ggsave(paste(argv$o,"/StackedBar.png",sep=""), plot = stacked_bar, width = 30, height = 20, units = "cm")

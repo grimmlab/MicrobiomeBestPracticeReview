@@ -10,7 +10,9 @@ mothur_16S_workflow(){
    run_fastqc
    run_mothur_preprocessing
    run_mothur_alignment
-   run_mothur_post_aligment_quality_check
+   run_mothur_post_alignment_quality_check_1
+   run_mothur_post_alignment_quality_check_uchime
+   run_mothur_post_alignment_quality_check_2
    run_mothur_classify_and_cluster_seq_to_OTUs
    run_mothur_phylogenetic_analysis
    run_mothur_downstream_analysis
@@ -133,7 +135,7 @@ run_mothur_alignment(){
    echo "DONE running mothur alignment"
 }
 
-run_mothur_post_aligment_quality_check(){
+run_mothur_post_alignment_quality_check_1(){
    echo "Running mothur post alignment quality check"
 
    ${TOOLS_FOLDER}/mothur/mothur \
@@ -174,12 +176,20 @@ run_mothur_post_aligment_quality_check(){
    diffs=2, \
    processors=${PROCESSORS})"
 
+}
+
+run_mothur_post_alignment_quality_check_uchime(){
+
+   echo "Running uchime command"
    ${TOOLS_FOLDER}/mothur/mothur \
    "#chimera.uchime(fasta=${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.fasta, \
    count=${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.count_table, \
-   dereplicate=t, \
-   processors=${PROCESSORS})"
+   dereplicate=t)"#, \
+   #processors=${PROCESSORS})"
+}
 
+run_mothur_post_alignment_quality_check_2(){
+   echo "Running mothur post alignment quality check"
    ${TOOLS_FOLDER}/mothur/mothur \
    "#remove.seqs(fasta=${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.fasta, \
    count=${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.count_table, \
@@ -258,7 +268,7 @@ run_mothur_classify_and_cluster_seq_to_OTUs(){
 
 run_mothur_phylogenetic_analysis(){
    echo "Running mothur phylogenetic analysis"
-
+	
    ${TOOLS_FOLDER}/mothur/mothur \
    "#dist.seqs(fasta=${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta, \
    output=lt)"
@@ -285,6 +295,7 @@ run_mothur_downstream_analysis(){
    echo "DONE running mothur downstream analysis"
 }
 
+echo "Path check.................... $pwd"
 run_modify_phyliptre(){
    echo "Running mothur modify phyliptre"
 
@@ -312,13 +323,13 @@ run_R_plotting(){
    echo "Running R plotting"
    
    mkdir -p ${ANALYSIS_FOLDER}/mothur/mothur_output/plots/
-   echo "Rscript ${BIN_FOLDER}/plots.R \
+   Rscript ${BIN_FOLDER}/plots.R \
    -l ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list \
    -tx ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.cons.taxonomy \
    -t ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.03.rep.otu_modified.phylip.tre \
    -s ${ANALYSIS_FOLDER}/mothur/mothur_output/${PROJECT_NAME}.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.shared \
    -m ${RAWDATA_FOLDER}/../metadata/mouse.dpw.metadata \
-   -o ${ANALYSIS_FOLDER}/mothur/mothur_output/plots/"
+   -o ${ANALYSIS_FOLDER}/mothur/mothur_output/plots/
 
    echo "DONE running R plotting"
 }

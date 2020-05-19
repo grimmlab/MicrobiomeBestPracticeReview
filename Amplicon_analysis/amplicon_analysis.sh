@@ -3,7 +3,7 @@
 ### Workflow for amplicon analysis for bacterial data
 
 # Root folder name"
-NAME=TEST_analysis
+NAME=example_run
 
 # Raw data folder path
 SRC_RAWDATA='/home/richa/Desktop/MicrobiomeBestPracticeReview/Amplicon_analysis'
@@ -127,8 +127,6 @@ download_reference_database(){
    wget https://mothur.s3.us-east-2.amazonaws.com/wiki/silva.nr_${REFERENCE_VERSION}.tgz
    tar -xzvf silva.nr_${REFERENCE_VERSION}.tgz
    rm silva.nr_${REFERENCE_VERSION}.tgz
-
-
 
    # Silva database for DADA2
    cd ${REFERENCE_FOLDER}

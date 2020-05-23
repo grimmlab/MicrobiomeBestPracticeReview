@@ -68,7 +68,7 @@ run_set_paths(){
   MYCURRDIR=$PWD
   mkdir -p $ANALYSIS_FOLDER/mothur/mothur_output
   cd  $ANALYSIS_FOLDER/mothur/mothur_output
-  PROCESSORS=16
+  PROCESSORS=8
   PROJECT_NAME="MiSeq_16S"
 }
 

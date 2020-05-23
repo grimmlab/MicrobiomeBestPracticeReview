@@ -71,9 +71,9 @@ ggsave(paste(argv$o,"/ChaosRichness.png",sep=""), plot = bp, width = 30, height 
    color="Phylum",
    label.tips="taxa_names",
    ladderize="left",
-   plot.margin=0.1,
+   plot.margin=0.6,
    size="abundance",
-   min.abundance=3) +
+   min.abundance=20) +
    coord_polar(theta="y")
 ggsave(paste(argv$o,"/PhyloTree.png",sep=""), plot = tree, width = 30, height = 20, units = "cm")
 

@@ -255,12 +255,13 @@ install_metaphlan(){
       #Installing metaphlan 
       echo "Installing metaphlan"
       cd ${TOOLS_FOLDER}
-      hg clone https://bitbucket.org/biobakery/metaphlan2
-      hg clone https://hg@bitbucket.org/nsegata/graphlan
+      git clone https://github.com/biobakery/MetaPhlAn2 metaphlan2
+      git clone https://github.com/biobakery/graphlan
       #install hclust
-      wget https://bitbucket.org/nsegata/hclust2/get/tip.zip
-      unzip tip.zip
-      rm tip.zip
+      git clone https://github.com/SegataLab/hclust2
+      #wget https://bitbucket.org/nsegata/hclust2/get/tip.zip
+      #unzip tip.zip
+      #rm tip.zip
       #export PATH=`pwd`/graphlan/:$PATH
    fi
    echo "DONE checking and installing metaphlan!"
@@ -341,7 +342,7 @@ install_humann2(){
       echo "humann2 already installed"
    else
       cd ${TOOLS_FOLDER}
-      hg clone https://bitbucket.org/biobakery/humann2
+      git clone https://github.com/biobakery/humann humann2
       cd humann2
       python3 setup.py install --user
    fi
@@ -365,7 +366,7 @@ install_graphlan(){
       echo "graphlan already installed"
    else
       echo "Installing graphlan"
-      hg clone https://hg@bitbucket.org/nsegata/graphlan
+      git clone https://github.com/biobakery/graphlan
    fi
    echo "DONE checking and installing graphlan!"
 

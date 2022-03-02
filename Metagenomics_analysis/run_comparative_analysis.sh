@@ -69,6 +69,7 @@ gene_classification_with_diamond_megan(){
       --acc2seed  ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2seed-May2015XX.abin \
       --acc2eggnog ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2eggnog-Oct2016X.abin \
       -fwa true \
+      -t 24 \
       --out ${ANALYSIS_FOLDER}/contigs_taxonomic_classification/diamond_output/$(basename ${i%.1*}.rma)
    done
    

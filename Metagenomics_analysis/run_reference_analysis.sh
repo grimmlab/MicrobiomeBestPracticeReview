@@ -162,6 +162,7 @@ run_diamond(){
       --acc2seed  ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2seed-May2015XX.abin \
       --acc2eggnog ${REFERENCE_FOLDER}/reference_database/megan_ref/acc2eggnog-Oct2016X.abin \
       -fwa true \
+      -t 24 \
       --out ${ANALYSIS_FOLDER}/reference_classification/diamond_output/$(basename ${i%.12*}.rma)
    done
 
